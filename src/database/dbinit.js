@@ -5,5 +5,10 @@ function dberr(err) {
   if (err) return console.log('Ooops!', err)
 }
 
-db.put('testdata', JSON.stringify({msg: 'ok'}), dberr)
-db.put('parameters', JSON.stringify(['param1', 'param2']))
+db.put('testdata', JSON.stringify({ msg: 'ok' }), dberr)
+
+db.put('simulationStatus', JSON.stringify({
+  1: 'Pending',
+  2: 'Started',
+  3: 'Finished'
+}))

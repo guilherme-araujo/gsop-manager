@@ -1,6 +1,6 @@
 import level from 'level-ts';
 
-const database = new level('src/database/db');
+const database = new level('./db');
 
 export const get = async (key) => {
   try {
@@ -18,3 +18,4 @@ export const put = async (key, val) => {
   }
 
 }
+

@@ -4,40 +4,41 @@ import { get, put } from '../database'
 
 const router = Router()
 
-//return parameter list
+//return pipeline list
 router.get('/', async (req, res) => {
-  const parameters = await get('parameters')
-  return res.json(parameters)
+  const pipelines = await get('pipelines')
+  return res.json(pipelines)
 })
 
-//return parameter of a certain uuid
+//return pipeline of a certain uuid
 router.get('/id/:id', async (req, res) => {
-  const parameters = await get('parameters')
+  const pipelines = await get('pipelines')
   const id = req.params.id
-  return res.json(parameters[id])
+  return res.json(pipelines[id])
 })
 
 /*
-EXPECTED FORMAT FOR newParam:
+EXPECTED FORMAT FOR newPipeline:
 {
   "name": String
   "descr": String
-  "program": program uuid
-  "param": String
-  "optional": boolean
+  "programs": {
+    "1": "uuid of program 1",
+    "2": "uuid of program 2"
+  }
 }
 */
 router.post('/', async (req, res) => {
-  const newParam = req.body.parameter
+  const newPipeline = req.body.pipeline
   const newId = uuid()
   let idList = {}
   try {
-    idList = await get('parameters')
+    idList = await get('pipelines')
   } finally {
     idList = idList['err'] ? {} : idList
   }
-  idList[newId] = newParam
-  const ok = await put('parameters', idList)
+  idList[newId] = newPipeline
+  const ok = await put('pipelines', idList)
   return res.status(201).json(ok[newId])
 })
 

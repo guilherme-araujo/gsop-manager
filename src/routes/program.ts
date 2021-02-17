@@ -4,40 +4,38 @@ import { get, put } from '../database'
 
 const router = Router()
 
-//return parameter list
+//return program list
 router.get('/', async (req, res) => {
-  const parameters = await get('parameters')
-  return res.json(parameters)
+  const programs = await get('programs')
+  return res.json(programs)
 })
 
-//return parameter of a certain uuid
+//return program of a certain uuid
 router.get('/id/:id', async (req, res) => {
-  const parameters = await get('parameters')
+  const programs = await get('programs')
   const id = req.params.id
-  return res.json(parameters[id])
+  return res.json(programs[id])
 })
 
 /*
-EXPECTED FORMAT FOR newParam:
+EXPECTED FORMAT FOR newProgram:
 {
   "name": String
   "descr": String
-  "program": program uuid
-  "param": String
-  "optional": boolean
+  "binaryPath": String
 }
 */
 router.post('/', async (req, res) => {
-  const newParam = req.body.parameter
+  const newProgram = req.body.program
   const newId = uuid()
   let idList = {}
   try {
-    idList = await get('parameters')
+    idList = await get('programs')
   } finally {
     idList = idList['err'] ? {} : idList
   }
-  idList[newId] = newParam
-  const ok = await put('parameters', idList)
+  idList[newId] = newProgram
+  const ok = await put('programs', idList)
   return res.status(201).json(ok[newId])
 })
 
