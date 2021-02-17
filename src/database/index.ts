@@ -1,39 +1,20 @@
-/* import Sequelize, { Options } from 'sequelize'
-import { development } from './config'
-import
+import level from 'level-ts';
 
-const conf: Options = {
-  dialect: 'sqlite',
-  storage: development.storage
-}
+const database = new level('src/database/db');
 
-class Database {
-  public connection: Sequelize.Sequelize
-
-  constructor () {
-    this.init()
-  }
-
-  init (): void {
-    this.connection = new Sequelize.Sequelize(conf)
+export const get = async (key) => {
+  try {
+    return await database.get(key)
+  } catch (error) {
+    return { err: error.toString() }
   }
 }
 
-const database: Database = new Database()
+export const put = async (key, val) => {
+  try {
+    return await database.put(key, val)
+  } catch (error) {
+    return { err: error.toString }
+  }
 
-export default database
-*/
-
-import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
-import { development } from './config'
-import Users from './models/userType'
-
-const conf: SequelizeOptions = {
-  dialect: 'sqlite',
-  storage: development.storage,
-  models: [Users]
 }
-
-const sequelize = new Sequelize(conf)
-
-export default sequelize
