@@ -20,7 +20,9 @@ router.get('/id/:id', async (req, res) => {
 /*
 EXPECTED FORMAT FOR newSimulation:
 {
-  "pipeline": uuid of pipeline
+  "pipeline": uuid of pipeline,
+  "name": name of simulation,
+  "descr": description of simulation
   "parameters": {
     "1": {
       "parameter": uuid of parameter,
