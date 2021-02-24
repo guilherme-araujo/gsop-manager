@@ -14,7 +14,12 @@ const Programs = () => {
       ) : (
         <ul>
           {Object.keys(data).map((p, i) => {
-            return (<li key={i}>{data[p].name}</li>)
+            return (
+              <li key={i}>
+                <Link href={`/program/${p}`}><a> {data[p].name}</a></Link>
+              </li>
+
+            )
           })}
         </ul>
       )}
