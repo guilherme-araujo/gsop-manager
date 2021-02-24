@@ -5,7 +5,7 @@ import bodyParser from 'body-parser'
 
 const app = express()
 
-app.use(cors)
+app.use(cors())
 app.use(bodyParser.json())
 app.use(router)
 
