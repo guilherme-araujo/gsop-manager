@@ -1,5 +1,5 @@
-import { Simulation } from "./Simulation"
-import { Parameter } from "./Parameter"
+import { Simulation } from "./Simulation";
+import { Parameter } from "./Parameter";
 
 export class SimulationParameter {
     

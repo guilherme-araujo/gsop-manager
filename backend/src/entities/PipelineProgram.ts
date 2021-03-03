@@ -1,5 +1,5 @@
 import { Program } from "./Program";
-import { Pipeline } from "./Pipeline"
+import { Pipeline } from "./Pipeline";
 
 export class PipelineProgram {
     

@@ -1,6 +1,6 @@
-import { Pipeline } from "./Pipeline"
-import { Parameter } from "./Parameter"
-import { SimulationResult } from "./SimulationResult"
+import { Pipeline } from "./Pipeline";
+import { Parameter } from "./Parameter";
+import { SimulationResult } from "./SimulationResult";
 import { SimulationStatus } from "./SimulationStatus";
 
 export class Simulation {
