@@ -1,21 +1,14 @@
-import { Router, Request, Response } from 'express'
-import { v4 as uuid } from 'uuid'
-import { get, put } from '../database'
+import { Router } from 'express'
+import { PipelineController } from '../controllers/PipelineController'
 
 const router = Router()
+const pipelineController = new PipelineController()
 
 //return pipeline list
-router.get('/', async (req: Request, res: Response) => {
-  const pipelines = await get('pipelines')
-  return res.json(pipelines)
-})
+router.get('/', pipelineController.listAll)
 
 //return pipeline of a certain uuid
-router.get('/id/:id', async (req: Request, res: Response) => {
-  const pipelines = await get('pipelines')
-  const id = req.params.id
-  return res.json(pipelines[id])
-})
+router.get('/id/:id', pipelineController.findOne)
 
 /*
 EXPECTED FORMAT FOR newPipeline:
@@ -28,18 +21,6 @@ EXPECTED FORMAT FOR newPipeline:
   }
 }
 */
-router.post('/', async (req: Request, res: Response) => {
-  const newPipeline = req.body.pipeline
-  const newId = uuid()
-  let idList = {}
-  try {
-    idList = await get('pipelines')
-  } finally {
-    idList = idList['err'] ? {} : idList
-  }
-  idList[newId] = newPipeline
-  const ok = await put('pipelines', idList)
-  return res.status(201).json({ [newId]: ok[newId] })
-})
+router.post('/', pipelineController.new)
 
 export default router

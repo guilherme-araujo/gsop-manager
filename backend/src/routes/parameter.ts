@@ -1,21 +1,14 @@
 import { Request, Response, Router } from 'express'
-import { v4 as uuid } from 'uuid'
-import { get, put } from '../database'
+import { ParameterController } from '../controllers/ParameterController'
 
 const router = Router()
+const parameterController = new ParameterController()
 
 //return parameter list
-router.get('/', async (req: Request, res: Response) => {
-  const parameters = await get('parameters')
-  return res.json(parameters)
-})
+router.get('/', parameterController.listAll)
 
 //return parameter of a certain uuid
-router.get('/id/:id', async (req: Request, res: Response) => {
-  const parameters = await get('parameters')
-  const id = req.params.id
-  return res.json(parameters[id])
-})
+router.get('/id/:id', parameterController.findOne)
 
 /*
 EXPECTED FORMAT FOR newParam:
@@ -27,18 +20,6 @@ EXPECTED FORMAT FOR newParam:
   "optional": boolean
 }
 */
-router.post('/', async (req: Request, res: Response) => {
-  const newParam = req.body.parameter
-  const newId = uuid()
-  let idList = {}
-  try {
-    idList = await get('parameters')
-  } finally {
-    idList = idList['err'] ? {} : idList
-  }
-  idList[newId] = newParam
-  const ok = await put('parameters', idList)
-  return res.status(201).json({ [newId]: ok[newId] })
-})
+router.post('/', parameterController.new)
 
 export default router

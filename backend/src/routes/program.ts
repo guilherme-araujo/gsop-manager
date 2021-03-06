@@ -1,21 +1,14 @@
-import { Router, Request, Response } from 'express'
-import { v4 as uuid } from 'uuid'
-import { get, put } from '../database'
+import { Router } from 'express'
+import { ProgramController } from '../controllers/ProgramController'
 
 const router = Router()
+const programController = new ProgramController()
 
 //return program list
-router.get('/', async (req: Request, res: Response) => {
-  const programs = await get('programs')
-  return res.json(programs)
-})
+router.get('/', programController.listAll)
 
 //return program of a certain uuid
-router.get('/id/:id', async (req: Request, res: Response) => {
-  const programs = await get('programs')
-  const id = req.params.id
-  return res.json(programs[id])
-})
+router.get('/id/:id', programController.findOne)
 
 /*
 EXPECTED FORMAT FOR newProgram:
@@ -25,18 +18,6 @@ EXPECTED FORMAT FOR newProgram:
   "binaryPath": String
 }
 */
-router.post('/', async (req: Request, res: Response) => {
-  const newProgram = req.body.program
-  const newId = uuid()
-  let idList = {}
-  try {
-    idList = await get('programs')
-  } finally {
-    idList = idList['err'] ? {} : idList
-  }
-  idList[newId] = newProgram
-  const ok = await put('programs', idList)
-  return res.status(201).json({ [newId]: ok[newId] })
-})
+router.post('/', programController.new)
 
 export default router

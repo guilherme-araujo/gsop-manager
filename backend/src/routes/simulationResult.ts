@@ -1,19 +1,13 @@
-import { Router, Request, Response } from 'express'
-import { get, put } from '../database'
+import { Router } from 'express'
+import { SimulationResultController } from '../controllers/SimulationResultController'
 
 const router = Router()
+const simulationResultController = new SimulationResultController()
 
 //return simulation result list
-router.get('/', async (req: Request, res: Response) => {
-  const simulationResults = await get('simulationResults')
-  return res.json(simulationResults)
-})
+router.get('/', simulationResultController.listAll)
 
 //return simulation result of a certain uuid
-router.get('/id/:id', async (req: Request, res: Response) => {
-  const simulationResults = await get('simulationResults')
-  const id = req.params.id
-  return res.json(simulationResults[id])
-})
+router.get('/id/:id', simulationResultController.findOne)
 
 export default router

@@ -1,21 +1,14 @@
-import { Router, Request, Response } from 'express'
-import { v4 as uuid } from 'uuid'
-import { get, put } from '../database'
+import { Router } from 'express'
+import { SimulationController } from '../controllers/SimulationController'
 
 const router = Router()
+const simulationController = new SimulationController()
 
 //return simulation list
-router.get('/', async (req: Request, res: Response) => {
-  const simulations = await get('simulations')
-  return res.json(simulations)
-})
+router.get('/', simulationController.listAll)
 
 //return simulation of a certain uuid
-router.get('/id/:id', async (req: Request, res: Response) => {
-  const simulations = await get('simulations')
-  const id = req.params.id
-  return res.json(simulations[id])
-})
+router.get('/id/:id', simulationController.findOne)
 
 /*
 EXPECTED FORMAT FOR newSimulation:
@@ -36,18 +29,6 @@ EXPECTED FORMAT FOR newSimulation:
   "status": uuid of simulationStatus
 }
 */
-router.post('/', async (req: Request, res: Response) => {
-  const newSimulation = req.body.simulation
-  const newId = uuid()
-  let idList = {}
-  try {
-    idList = await get('simulations')
-  } finally {
-    idList = idList['err'] ? {} : idList
-  }
-  idList[newId] = newSimulation
-  const ok = await put('simulations', idList)
-  return res.status(201).json({ [newId]: ok[newId] })
-})
+router.post('/', simulationController.new)
 
 export default router

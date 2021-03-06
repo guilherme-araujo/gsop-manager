@@ -1,0 +1,32 @@
+import { Request, Response } from 'express'
+import { v4 as uuid } from 'uuid'
+import { get, put } from '../database'
+
+class ParameterController {
+  async listAll(req: Request, res: Response) {
+    const parameters = await get('parameters')
+    return res.json(parameters)
+  }
+
+  async findOne(req: Request, res: Response) {
+    const parameters = await get('parameters')
+    const id = req.params.id
+    return res.json(parameters[id])
+  }
+
+  async new(req: Request, res: Response) {
+    const newParam = req.body.parameter
+    const newId = uuid()
+    let idList = {}
+    try {
+      idList = await get('parameters')
+    } finally {
+      idList = idList['err'] ? {} : idList
+    }
+    idList[newId] = newParam
+    const ok = await put('parameters', idList)
+    return res.status(201).json({ [newId]: ok[newId] })
+  }
+}
+
+export { ParameterController }
