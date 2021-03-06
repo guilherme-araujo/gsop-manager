@@ -3,7 +3,9 @@ import { ISimulationResultRepository } from '../repositories/ISimulationResultRe
 import { get } from '../database'
 
 class SimulationResultController {
-  private simulationResultRepository: ISimulationResultRepository
+  constructor(
+    private simulationResultRepository: ISimulationResultRepository
+  ) {}
 
   async listAll(req: Request, res: Response) {
     const simulationResults = await get('simulationResults')
