@@ -1,4 +1,5 @@
 import { Program } from './Program'
+import { v4 as uuid } from 'uuid'
 
 export class Parameter {
   public readonly id: string
@@ -12,7 +13,7 @@ export class Parameter {
   constructor(props: Omit<Parameter, 'id'>, id?: string) {
     Object.assign(this, props)
     if (!id) {
-      //this.id = uuid();
+      this.id = uuid()
     }
   }
 }

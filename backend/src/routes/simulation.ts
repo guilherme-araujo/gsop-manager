@@ -5,13 +5,13 @@ import { get, put } from '../database'
 const router = Router()
 
 //return simulation list
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   const simulations = await get('simulations')
   return res.json(simulations)
 })
 
 //return simulation of a certain uuid
-router.get('/id/:id', async (req, res) => {
+router.get('/id/:id', async (req: Request, res: Response) => {
   const simulations = await get('simulations')
   const id = req.params.id
   return res.json(simulations[id])
@@ -36,7 +36,7 @@ EXPECTED FORMAT FOR newSimulation:
   "status": uuid of simulationStatus
 }
 */
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   const newSimulation = req.body.simulation
   const newId = uuid()
   let idList = {}
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
   }
   idList[newId] = newSimulation
   const ok = await put('simulations', idList)
-  return res.status(201).json(ok[newId])
+  return res.status(201).json({ [newId]: ok[newId] })
 })
 
 export default router

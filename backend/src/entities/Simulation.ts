@@ -2,6 +2,7 @@ import { Pipeline } from './Pipeline'
 import { Parameter } from './Parameter'
 import { SimulationResult } from './SimulationResult'
 import { SimulationStatus } from './SimulationStatus'
+import { v4 as uuid } from 'uuid'
 
 export class Simulation {
   public readonly id: string
@@ -17,7 +18,7 @@ export class Simulation {
   ) {
     Object.assign(this, props)
     if (!id) {
-      //this.id = uuid();
+      this.id = uuid()
     }
   }
 }

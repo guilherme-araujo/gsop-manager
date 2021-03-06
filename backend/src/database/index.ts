@@ -2,7 +2,7 @@ import level from 'level-ts'
 
 const database = new level('./db')
 
-export const get = async (key) => {
+export const get = async (key: string) => {
   try {
     return await database.get(key)
   } catch (error) {
@@ -10,7 +10,7 @@ export const get = async (key) => {
   }
 }
 
-export const put = async (key, val) => {
+export const put = async (key: string, val: Object) => {
   try {
     return await database.put(key, val)
   } catch (error) {

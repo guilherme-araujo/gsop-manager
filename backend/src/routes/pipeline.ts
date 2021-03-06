@@ -5,13 +5,13 @@ import { get, put } from '../database'
 const router = Router()
 
 //return pipeline list
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   const pipelines = await get('pipelines')
   return res.json(pipelines)
 })
 
 //return pipeline of a certain uuid
-router.get('/id/:id', async (req, res) => {
+router.get('/id/:id', async (req: Request, res: Response) => {
   const pipelines = await get('pipelines')
   const id = req.params.id
   return res.json(pipelines[id])
@@ -28,7 +28,7 @@ EXPECTED FORMAT FOR newPipeline:
   }
 }
 */
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   const newPipeline = req.body.pipeline
   const newId = uuid()
   let idList = {}
@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
   }
   idList[newId] = newPipeline
   const ok = await put('pipelines', idList)
-  return res.status(201).json(ok[newId])
+  return res.status(201).json({ [newId]: ok[newId] })
 })
 
 export default router

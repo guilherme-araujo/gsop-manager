@@ -1,4 +1,5 @@
 import { Program } from './Program'
+import { v4 as uuid } from 'uuid'
 
 export class Pipeline {
   public readonly id: string
@@ -10,7 +11,7 @@ export class Pipeline {
   constructor(props: Omit<Pipeline, 'id' | 'programs'>, id?: string) {
     Object.assign(this, props)
     if (!id) {
-      //this.id = uuid();
+      this.id = uuid()
     }
   }
 }

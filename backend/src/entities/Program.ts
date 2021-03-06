@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid'
+
 export class Program {
   public readonly id: string
 
@@ -8,7 +10,7 @@ export class Program {
   constructor(props: Omit<Program, 'id'>, id?: string) {
     Object.assign(this, props)
     if (!id) {
-      //this.id = uuid();
+      this.id = uuid()
     }
   }
 }

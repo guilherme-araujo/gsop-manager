@@ -1,17 +1,17 @@
-import { Router, Request, Response } from 'express'
+import { Request, Response, Router } from 'express'
 import { v4 as uuid } from 'uuid'
 import { get, put } from '../database'
 
 const router = Router()
 
 //return parameter list
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   const parameters = await get('parameters')
   return res.json(parameters)
 })
 
 //return parameter of a certain uuid
-router.get('/id/:id', async (req, res) => {
+router.get('/id/:id', async (req: Request, res: Response) => {
   const parameters = await get('parameters')
   const id = req.params.id
   return res.json(parameters[id])
@@ -27,7 +27,7 @@ EXPECTED FORMAT FOR newParam:
   "optional": boolean
 }
 */
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   const newParam = req.body.parameter
   const newId = uuid()
   let idList = {}
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
   }
   idList[newId] = newParam
   const ok = await put('parameters', idList)
-  return res.status(201).json(ok[newId])
+  return res.status(201).json({ [newId]: ok[newId] })
 })
 
 export default router
