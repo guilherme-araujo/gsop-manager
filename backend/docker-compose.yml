@@ -3,7 +3,7 @@ services:
   backend:
     build: .
     restart: unless-stopped
-    ports: 
+    ports:
       - 5002:3333
     volumes:
       - .:/usr/app

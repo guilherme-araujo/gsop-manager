@@ -1,6 +1,6 @@
-import { Program } from "../entities/Program";
+import { Program } from '../entities/Program'
 
 export interface IProgramRepository {
-    save(program: Program): Promise<void>;
-    getAllPrograms(): Promise<Program[]>;
+  save(program: Program): Promise<void>
+  getAllPrograms(): Promise<Program[]>
 }

@@ -16,5 +16,4 @@ router.get('/id/:id', async (req, res) => {
   return res.json(simulationResults[id])
 })
 
-
 export default router

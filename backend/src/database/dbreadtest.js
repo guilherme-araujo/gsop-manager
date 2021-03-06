@@ -1,5 +1,5 @@
-var level = require('level')
-var db = level('db/')
+const level = require('level')
+const db = level('db/')
 
 function dberr(err) {
   if (err) return console.log('Ooops!', err)
