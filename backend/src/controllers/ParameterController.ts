@@ -1,8 +1,11 @@
 import { Request, Response } from 'express'
+import { IParameterRepository } from '../repositories/IParameterRepository'
 import { v4 as uuid } from 'uuid'
 import { get, put } from '../database'
 
 class ParameterController {
+  private parameterRepository: IParameterRepository
+
   async listAll(req: Request, res: Response) {
     const parameters = await get('parameters')
     return res.json(parameters)

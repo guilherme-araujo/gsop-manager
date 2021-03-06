@@ -1,8 +1,11 @@
 import { Request, Response } from 'express'
+import { IPipelineRepository } from '../repositories/IPipelineRepository'
 import { v4 as uuid } from 'uuid'
 import { get, put } from '../database'
 
 class PipelineController {
+  private pipelineRepository: IPipelineRepository
+
   async listAll(req: Request, res: Response) {
     const pipelines = await get('pipelines')
     return res.json(pipelines)

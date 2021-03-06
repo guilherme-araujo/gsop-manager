@@ -1,8 +1,11 @@
 import { Request, Response } from 'express'
 import { get, put } from '../database'
 import { v4 as uuid } from 'uuid'
+import { ISimulationRepository } from '../repositories/ISimulationRepository'
 
 class SimulationController {
+  private simulationRepository: ISimulationRepository
+
   async listAll(req: Request, res: Response) {
     const simulations = await get('simulations')
     return res.json(simulations)
