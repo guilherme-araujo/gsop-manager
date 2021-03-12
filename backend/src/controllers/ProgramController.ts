@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { get, put } from '../database'
 
 class ProgramController {
-  constructor(private programRepository: IProgramRepository) {}
+  constructor(private programRepository?: IProgramRepository) {}
 
   async listAll(req: Request, res: Response) {
     const programs = await get('programs')

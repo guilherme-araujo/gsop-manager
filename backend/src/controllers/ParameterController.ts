@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { get, put } from '../database'
 
 class ParameterController {
-  constructor(private parameterRepository: IParameterRepository) {}
+  constructor(private parameterRepository?: IParameterRepository) {}
 
   async listAll(req: Request, res: Response) {
     const parameters = await get('parameters')

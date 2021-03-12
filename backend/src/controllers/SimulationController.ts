@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { ISimulationRepository } from '../repositories/ISimulationRepository'
 
 class SimulationController {
-  constructor(private simulationRepository: ISimulationRepository) {}
+  constructor(private simulationRepository?: ISimulationRepository) {}
 
   async listAll(req: Request, res: Response) {
     const simulations = await get('simulations')

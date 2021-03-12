@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { get, put } from '../database'
 
 class PipelineController {
-  constructor(private pipelineRepository: IPipelineRepository) {}
+  constructor(private pipelineRepository?: IPipelineRepository) {}
 
   async listAll(req: Request, res: Response) {
     const pipelines = await get('pipelines')

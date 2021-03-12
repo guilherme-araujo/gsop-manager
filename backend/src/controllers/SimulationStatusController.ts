@@ -4,7 +4,7 @@ import { get } from '../database'
 
 class SimulationStatusController {
   constructor(
-    private simulationStatusRepository: ISimulationStatusRepository
+    private simulationStatusRepository?: ISimulationStatusRepository
   ) {}
 
   async listAll(req: Request, res: Response) {
