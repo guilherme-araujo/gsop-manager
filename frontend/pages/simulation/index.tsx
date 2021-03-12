@@ -1,33 +1,30 @@
-import Link from 'next/link'
-import Layout from '../../components/Layout'
-import { useFetch } from '../../utils/api'
+import Link from "next/link";
+import Layout from "../../components/Layout";
+import { useFetch } from "../../utils/api";
 
 const Simulations = () => {
-
-  const { data } = useFetch('simulation')
+  const { data } = useFetch("simulation");
 
   return (
     <Layout title="User Area | GSOP Manager">
       <h1>Simulations</h1>
-      { !data ? (
+      {!data ? (
         <p>Loading...</p>
       ) : (
-          <ul>
-            {Object.keys(data).map((p, i) => {
-              return (
-                <li key={i}>
-                  <Link href={`/simulation/${p}`}><a> {data[p].name}</a></Link> <button>Start</button>
-                </li>
-
-              )
-            })}
-          </ul>
-
-        )}
-
+        <ul>
+          {Object.keys(data).map((p, i) => {
+            return (
+              <li key={i}>
+                <Link href={`/simulation/${p}`}>
+                  <a> {data[p].name}</a>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </Layout>
-  )
+  );
+};
 
-}
-
-export default Simulations
+export default Simulations;

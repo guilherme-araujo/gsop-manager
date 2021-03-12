@@ -1,13 +1,16 @@
-import React, { ReactNode } from 'react'
-import Link from 'next/link'
-import Head from 'next/head'
+import React, { ReactNode } from "react";
+import Link from "next/link";
+import Head from "next/head";
 
 type Props = {
-  children?: ReactNode
-  title?: string
-}
+  children?: ReactNode;
+  title?: string;
+};
 
-const Layout = ({ children, title = 'Graph Simulator of Populations - Manager' }: Props) => (
+const Layout = ({
+  children,
+  title = "Graph Simulator of Populations - Manager",
+}: Props) => (
   <div>
     <Head>
       <title>{title}</title>
@@ -18,12 +21,15 @@ const Layout = ({ children, title = 'Graph Simulator of Populations - Manager' }
       <nav>
         <Link href="/">
           <a>Home</a>
-        </Link>{' '}
-        |{' '}
+        </Link>{" "}
+        |{" "}
+        <Link href="/userarea">
+          <a>User area</a>
+        </Link>{" "}
+        |{" "}
         <Link href="/about">
           <a>About</a>
-        </Link>{' '}
-       
+        </Link>{" "}
       </nav>
     </header>
     {children}
@@ -32,6 +38,6 @@ const Layout = ({ children, title = 'Graph Simulator of Populations - Manager' }
       <span>All rights reserved. 2021 Guilherme Fernandes de Araújo</span>
     </footer>
   </div>
-)
+);
 
-export default Layout
+export default Layout;
