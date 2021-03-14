@@ -18,12 +18,13 @@ class PipelineController {
 
     //move this logic to the repositories later
     const pipeline = pipelines[id]
-    const programs = {}
+    const programObjs = {}
 
     for (const program of Object.keys(pipeline.programs)) {
       const programObj = (await get('programs'))[pipeline.programs[program]]
-      pipeline.programs[program] = { [pipeline.programs[program]]: programObj }
+      programObjs[pipeline['programs'][program]] = programObj
     }
+    pipeline['programObjs'] = programObjs
 
     return res.json(pipeline)
   }
