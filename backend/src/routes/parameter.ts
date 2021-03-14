@@ -10,6 +10,8 @@ router.get('/', parameterController.listAll)
 //return parameter of a certain uuid
 router.get('/id/:id', parameterController.findOne)
 
+router.get('/program/:programid', parameterController.findByProgram)
+
 /*
 EXPECTED FORMAT FOR newParam:
 {

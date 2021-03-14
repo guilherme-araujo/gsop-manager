@@ -17,6 +17,26 @@ class ParameterController {
     return res.json(parameters[id])
   }
 
+  async findByProgram(req: Request, res: Response) {
+    const programid = req.params.programid
+
+    //move this logic to the repository later
+    const parameters = await get('parameters')
+    const filteredParams = {}
+    Object.keys(parameters).forEach((param, i) => {
+      if (parameters[param].program === programid) {
+        filteredParams[param] = parameters[param]
+      }
+    })
+
+    if (Object.keys(filteredParams).length > 0) {
+      return res.json(filteredParams)
+    } else {
+      return res.status(400).json({ msg: 'No parameters for this programId.' })
+    }
+    throw new Error('Method not implemented.')
+  }
+
   async new(req: Request, res: Response) {
     const newParam = req.body.parameter
     const newId = uuid()
