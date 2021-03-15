@@ -17,7 +17,7 @@ class SimulationController {
     return res.json(simulations[id])
   }
 
-  async new(req: Request, res: Response) {
+  async save(req: Request, res: Response) {
     const newSimulation = req.body.simulation
     const newId = uuid()
     let idList = {}

@@ -28,7 +28,7 @@ class PipelineController {
 
     return res.json(pipeline)
   }
-  async new(req: Request, res: Response) {
+  async save(req: Request, res: Response) {
     const newPipeline = req.body.pipeline
     const newId = uuid()
     let idList = {}

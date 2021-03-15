@@ -3,10 +3,6 @@ import { Program } from '../entities/Program'
 import { Pipeline } from '../entities/Pipeline'
 
 export interface IPipelineProgramRepository {
-  save(pipelineProgram: PipelineProgram): Promise<void>
-
-  getAllPipelinePrograms(): Promise<PipelineProgram[]>
-
   linkPipelineProgramProgram(
     pipelineProgram: PipelineProgram,
     program: Program

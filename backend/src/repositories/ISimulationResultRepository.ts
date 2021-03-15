@@ -2,9 +2,9 @@ import { SimulationResult } from '../entities/SimulationResult'
 import { Simulation } from '../entities/Simulation'
 
 export interface ISimulationResultRepository {
-  save(simulationResult: SimulationResult): Promise<void>
+  listAll(): Promise<SimulationResult[]>
 
-  getAllSimulationResults(): Promise<SimulationResult[]>
+  findOne(id: string): Promise<SimulationResult>
 
   linkSimulationResultSimulation(
     SimulationResult: SimulationResult,

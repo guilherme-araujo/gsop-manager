@@ -5,9 +5,11 @@ import { SimulationResult } from '../entities/SimulationResult'
 import { SimulationStatus } from '../entities/SimulationStatus'
 
 export interface ISimulationRepository {
-  save(simulation: Simulation): Promise<void>
+  listAll(): Promise<Simulation[]>
 
-  getAllSimulations(): Promise<Simulation[]>
+  findOne(id: string): Promise<Simulation>
+
+  save(simulation: Simulation): Promise<Simulation>
 
   linkSimulationPipeline(
     simulation: Simulation,

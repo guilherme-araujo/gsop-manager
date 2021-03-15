@@ -1,7 +1,9 @@
 import { Program } from '../entities/Program'
 
 export interface IProgramRepository {
-  save(program: Program): Promise<void>
+  listAll(): Promise<Program[]>
 
-  getAllPrograms(): Promise<Program[]>
+  findOne(id: string): Promise<Program>
+
+  save(program: Program): Promise<Program>
 }

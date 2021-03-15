@@ -2,9 +2,11 @@ import { Pipeline } from '../entities/Pipeline'
 import { Program } from '../entities/Program'
 
 export interface IPipelineRepository {
-  save(pipeline: Pipeline): Promise<void>
+  listAll(): Promise<Pipeline[]>
 
-  getAllPipelines(): Promise<Pipeline[]>
+  findOne(id: string): Promise<Pipeline>
+
+  save(pipeline: Pipeline): Promise<Pipeline>
 
   linkPipelineProgram(pipeline: Pipeline, program: Program): Promise<void>
 }

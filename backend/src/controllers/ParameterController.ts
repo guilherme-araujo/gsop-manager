@@ -37,7 +37,7 @@ class ParameterController {
     throw new Error('Method not implemented.')
   }
 
-  async new(req: Request, res: Response) {
+  async save(req: Request, res: Response) {
     const newParam = req.body.parameter
     const newId = uuid()
     let idList = {}

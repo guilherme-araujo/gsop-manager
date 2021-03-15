@@ -1,7 +1,7 @@
 import { SimulationStatus } from '../entities/SimulationStatus'
 
 export interface ISimulationStatusRepository {
-  save(simulationStatus: SimulationStatus): Promise<void>
+  listAll(): Promise<SimulationStatus[]>
 
-  getAllSimulationStatus(): Promise<SimulationStatus[]>
+  findOne(id: string): Promise<SimulationStatus>
 }

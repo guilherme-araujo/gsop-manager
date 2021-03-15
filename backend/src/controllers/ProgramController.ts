@@ -17,7 +17,7 @@ class ProgramController {
     return res.json(programs[id])
   }
 
-  async new(req: Request, res: Response) {
+  async save(req: Request, res: Response) {
     const newProgram = req.body.program
     const newId = uuid()
     let idList = {}
