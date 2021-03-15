@@ -10,3 +10,5 @@ db.get('testdata', function (err, value) {
 
   console.log(value)
 })
+
+db.put('simulations', JSON.stringify({}))
