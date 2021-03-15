@@ -1,12 +1,13 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Layout from "../../components/Layout";
-import { useFetch } from "../../utils/api";
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import Layout from '../../components/Layout'
+import ProgramListInPipeline from '../../components/ProgramListInPipeline'
+import { useFetch } from '../../utils/api'
 
 const Pipeline = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const { data } = useFetch(`pipeline/id/${id}`);
+  const router = useRouter()
+  const { id } = router.query
+  const { data } = useFetch(`pipeline/id/${id}`)
 
   return (
     <Layout title="User Area | GSOP Manager">
@@ -20,19 +21,12 @@ const Pipeline = () => {
           <p>Description: {data.descr} </p>
           <p>Programs:</p>
           <ul>
-            {Object.keys(data.programs).map((p, i) => (
-              <li key={i}>
-                <Link href={`/program/${data.programs[p]}`}>
-                  {data.programs[p]}
-                </Link>
-              </li>
-            ))}
+            <ProgramListInPipeline pipeline={data} />
           </ul>
-          <p>Filesystem path: {data.binaryPath} </p>
         </>
       )}
     </Layout>
-  );
-};
+  )
+}
 
-export default Pipeline;
+export default Pipeline

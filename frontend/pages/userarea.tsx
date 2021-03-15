@@ -10,6 +10,11 @@ const UserArea = () => (
       </Link>
     </p>
     <p>
+      <Link href="/parameter">
+        <a>Parameters</a>
+      </Link>
+    </p>
+    <p>
       <Link href="/pipeline">
         <a>Pipelines</a>
       </Link>
