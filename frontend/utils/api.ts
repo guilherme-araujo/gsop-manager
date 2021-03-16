@@ -1,8 +1,9 @@
 import useSWR from 'swr'
 import axios from 'axios'
 
-const api = axios.create({
-  baseURL: 'https://bioinfo.imd.ufrn.br/gsop-admin-dev/',
+export const api = axios.create({
+  //baseURL: 'https://bioinfo.imd.ufrn.br/gsop-admin-dev/',
+  baseURL: 'http://localhost:3333/',
 })
 
 export function useFetch<Data = any, Error = any>(url: string) {

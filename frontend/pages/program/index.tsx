@@ -1,9 +1,9 @@
-import Link from "next/link";
-import Layout from "../../components/Layout";
-import { useFetch } from "../../utils/api";
+import Link from 'next/link'
+import Layout from '../../components/Layout'
+import { useFetch } from '../../utils/api'
 
 const Programs = () => {
-  const { data } = useFetch("program");
+  const { data } = useFetch('program')
 
   return (
     <Layout title="User Area | GSOP Manager">
@@ -19,12 +19,15 @@ const Programs = () => {
                   <a> {data[p].name}</a>
                 </Link>
               </li>
-            );
+            )
           })}
         </ul>
       )}
+      <Link href="/program/new">
+        <a>New program</a>
+      </Link>
     </Layout>
-  );
-};
+  )
+}
 
-export default Programs;
+export default Programs
