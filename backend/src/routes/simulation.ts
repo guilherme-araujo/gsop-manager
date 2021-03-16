@@ -29,6 +29,6 @@ EXPECTED FORMAT FOR newSimulation:
   "status": uuid of simulationStatus
 }
 */
-router.post('/', simulationController.new)
+router.post('/', simulationController.save)
 
 export default router

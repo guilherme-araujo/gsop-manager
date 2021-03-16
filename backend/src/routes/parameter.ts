@@ -22,6 +22,7 @@ EXPECTED FORMAT FOR newParam:
   "optional": boolean
 }
 */
-router.post('/', parameterController.new)
+
+router.post('/', parameterController.save)
 
 export default router

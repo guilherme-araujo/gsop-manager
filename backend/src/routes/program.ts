@@ -18,6 +18,6 @@ EXPECTED FORMAT FOR newProgram:
   "binaryPath": String
 }
 */
-router.post('/', programController.new)
+router.post('/', programController.save)
 
 export default router

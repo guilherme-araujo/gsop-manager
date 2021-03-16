@@ -21,6 +21,6 @@ EXPECTED FORMAT FOR newPipeline:
   }
 }
 */
-router.post('/', pipelineController.new)
+router.post('/', pipelineController.save)
 
 export default router
