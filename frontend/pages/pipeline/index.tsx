@@ -23,6 +23,9 @@ const Pipelines = () => {
           })}
         </ul>
       )}
+      <Link href="/pipeline/new">
+        <a>New pipeline</a>
+      </Link>
     </Layout>
   );
 };

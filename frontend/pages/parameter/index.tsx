@@ -3,7 +3,7 @@ import Layout from '../../components/Layout'
 import { useFetch } from '../../utils/api'
 
 const Parameter = () => {
-  const { data } = useFetch('program')
+  const { data } = useFetch('parameter')
 
   return (
     <Layout title="User Area | GSOP Manager">
@@ -12,11 +12,14 @@ const Parameter = () => {
         <p>Loading...</p>
       ) : (
         <ul>
-          Choose a program:
+          Choose a parameter:
           {Object.keys(data).map((p, i) => {
             return (
               <li key={i}>
-                <Link href={`/parameter/${p}`}>
+                {
+                  // nesse link seria uma rota para edição ou para mostrar?
+                }
+                <Link href={`/parameter/program/${data[p].id}`}>
                   <a>{data[p].name}</a>
                 </Link>
               </li>
@@ -24,6 +27,7 @@ const Parameter = () => {
           })}
         </ul>
       )}
+      <Link href="parameter/new">New Parameter</Link>
     </Layout>
   )
 }
