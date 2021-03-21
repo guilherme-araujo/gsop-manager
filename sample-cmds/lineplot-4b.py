@@ -1,5 +1,6 @@
 import seaborn as sns
 import sys
+import os
 import csv
 from statistics import stdev
 import numpy as np
@@ -16,10 +17,23 @@ files = [
     {'file': 'a9g1', 'bonus': '0.09'}
 ]
 
+testParamVal = ''
+
+for arg in sys.argv:
+    if "testParam" in arg:
+        testParamVal = (arg.split('='))[1]
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+os.system('echo '+testParamVal+' > ' + dir_path + '/testParam.txt')
+
 al = []
 
+os.system('touch ' + dir_path + '/' + 'job-over.txt')
+
+
 for f in files:
-    with open(f['file']+'/'+f['file']+'.txt') as csv_file_r:
+    with open(dir_path + '/' + f['file']+'/'+f['file']+'.txt') as csv_file_r:
         print(f['file'])
         csv_reader = csv.reader(csv_file_r, delimiter=';')
         e00 = []
@@ -28,7 +42,7 @@ for f in files:
                 qta = int(row[0])
                 qtb = int(row[1])
                 result = 'Undef.'
-                if qta == 200:
+                if qta == 500:
                     result = 'A'
                 elif qta == 0:
                     result = 'B'
@@ -48,13 +62,17 @@ fig = sns.lineplot(data=resumo, x="bonus", y="sum", hue="type")
 plt.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
 
 ax.set(xlabel="alpha A", ylabel="Fixation %" )
-#ax.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=5000000))
+ax.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=500000))
 #ax.xaxis.set_major_formatter(mtick.ScalarFormatter())
 #ax.set_xticks(resumo['bonus'].unique())
 #plt.setp(ax.get_xticklabels(), rotation=90, horizontalalignment='center')
 #plt.ylim(1200000,2000000)
 plt.tight_layout()
 
-plt.show()
-plt.savefig("lineplot-4b.svg")
-plt.savefig("lineplot-4b.png", dpi=200)
+#plt.show()
+plt.savefig(dir_path + '/'+"output/lineplot-4b.svg")
+plt.savefig(dir_path + '/'+"output/lineplot-4b.png", dpi=200)
+
+
+
+os.system('echo 1 > ' + dir_path + '/' + 'job-over.txt')

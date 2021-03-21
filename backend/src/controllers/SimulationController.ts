@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { get, put } from '../database'
 import { v4 as uuid } from 'uuid'
 import { ISimulationRepository } from '../repositories/ISimulationRepository'
+import { exec } from 'child_process'
 
 class SimulationController {
   constructor(private simulationRepository?: ISimulationRepository) {}
@@ -29,6 +30,57 @@ class SimulationController {
     idList[newId] = newSimulation
     const ok = await put('simulations', idList)
     return res.status(201).json({ [newId]: ok[newId] })
+  }
+
+  async run(req: Request, res: Response) {
+    const srun = req.params.id
+    let sims = {}
+    try {
+      sims = await get('simulations')
+    } finally {
+      if (sims['msg']) return res.json({ msg: 'Simulation not found.' })
+    }
+    //console.log(sims)
+    const sim = sims[srun]
+
+    if (sim['parametersByProgram']) {
+      const progId = Object.keys(sim['parametersByProgram'])[0]
+      //console.log(progId)
+      const params = sim['parametersByProgram'][progId]
+      //console.log(params)
+      const progs = await get('programs')
+      //console.log(progs)
+      const prog = progs[progId]
+      //console.log(prog)
+      let cmd = prog['binaryPath'] + ' '
+      const paramList = await get('parameters')
+      for (const param of params) {
+        cmd += paramList[param['parameter']]['param'] + param['value'] + ' '
+      }
+      console.log(cmd)
+      sim.status = '2'
+      sims[srun] = sim
+      put('simulations', sims)
+      exec(cmd, (error, stdout, stderr) => {
+        console.log({ error, stdout, stderr })
+        if (error) {
+          sim.status = '4'
+          sims[srun] = sim
+          put('simulations', sims)
+          return
+        }
+
+        sim.status = '3'
+        sims[srun] = sim
+        put('simulations', sims)
+      })
+
+      return res.json({ launched: true })
+    }
+
+    //exec('')
+
+    return res.json({ launched: false })
   }
 }
 

@@ -31,4 +31,6 @@ EXPECTED FORMAT FOR newSimulation:
 */
 router.post('/', simulationController.save)
 
+router.get('/run/:id', simulationController.run)
+
 export default router

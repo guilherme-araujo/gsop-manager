@@ -1,14 +1,11 @@
 # Commands for first execution
 
-### Generate graphs + simulation run
+### Generate plots based on real data
 
-./simulation.sh
+The data on this folder is incomplete. Download the full data from http://hungria.imd.ufrn.br/~gfaraujo/alemanha/article-nov-1/figure-4b/ in the folders a1g9, a3g7, a5g5, a7g3 and a9g1. Do not replace lineplot-4b.py.
 
-### Plotting
+The command for registering the program must be like:
 
-python lineplot-4b.py
-
-## Future steps
-
-- Integrate simulation end checking (job-percent.txt)
-- Verify simulation status (job-over.txt)
+```
+python /home/gfaraujo/testdata/figure-4b/lineplot-4b.py testParam=something
+```
