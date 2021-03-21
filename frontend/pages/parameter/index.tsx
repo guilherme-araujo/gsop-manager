@@ -16,7 +16,7 @@ const Parameter = () => {
           {Object.keys(data).map((p, i) => {
             return (
               <li key={i}>
-                <Link href={`/parameter/${p}`}>
+                <Link href={`/parameter/program/${p}`}>
                   <a>{data[p].name}</a>
                 </Link>
               </li>

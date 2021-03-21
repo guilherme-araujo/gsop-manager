@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Layout from '../../components/Layout'
-import ParamsByProgramList from '../../components/ParamsByProgramList'
-import { useFetch } from '../../utils/api'
+import Layout from '../../../components/Layout'
+import ParamsByProgramList from '../../../components/ParamsByProgramList'
+import { useFetch } from '../../../utils/api'
 
 const ParametersByProgram = () => {
   const router = useRouter()
-  const { programid } = router.query
-  const { data: paramList, error } = useFetch(`parameter/program/${programid}`)
-  const { data: program } = useFetch(`program/id/${programid}`)
+  const { programId } = router.query
+  const { data: paramList, error } = useFetch(`parameter/program/${programId}`)
+  const { data: program } = useFetch(`program/id/${programId}`)
 
   return (
     <Layout title="User Area | GSOP Manager">
@@ -23,6 +23,13 @@ const ParametersByProgram = () => {
           <h1>Parameters of {program.name}</h1>
           <ParamsByProgramList parameterList={paramList} />
         </>
+      )}
+      {programId ? (
+        <Link href={`/parameter/new/${programId}`}>
+          <a>New parameter</a>
+        </Link>
+      ) : (
+        <a>New parameter</a>
       )}
     </Layout>
   )
