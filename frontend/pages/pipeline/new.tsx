@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { SyntheticEvent, useState } from 'react'
 import Layout from '../../components/Layout'
-import { api } from '../../utils/api'
+import { api, useFetch } from '../../utils/api'
 
 type PipelineType = {
   [id: string]: {
@@ -35,23 +35,41 @@ EXPECTED FORMAT FOR newPipeline:
 
 const NewPipeline = () => {
   const [created, setCreated] = useState<PipelineType | undefined>(undefined)
+  const [programsList, setProgramsList] = useState<Array<string>>([])
+  const [selectedProgram, setSelectedProgram] = useState('')
+  const { data } = useFetch('program')
 
   const savePipeline = async (e: SyntheticEvent) => {
     e.preventDefault()
     const target = e.target as typeof e.target & {
       name: { value: string }
       descr: { value: string }
-      programs: { value: Array<Program> }
     }
     const name = target.name.value
     const descr = target.descr.value
-    const programs = target.programs.value
+    const programs = programsList
 
-    const res = await api.post('pipeline', {
+    /*const res = await api.post('pipeline', {
       program: { name, descr, programs },
-    })
-    console.log(res)
-    setCreated(res.data)
+    })*/
+    console.log({ name, descr, programs })
+    //setCreated(res.data)
+  }
+
+  const chooseProgram = (e: SyntheticEvent) => {
+    //e.preventDefault()
+    const target = e.target as typeof e.target & {
+      value: string
+    }
+    console.log(target.value)
+    setSelectedProgram(target.value)
+  }
+
+  const addProgram = () => {
+    const lst = programsList
+    console.log(selectedProgram)
+    lst.push(selectedProgram)
+    setProgramsList(lst)
   }
 
   return (
@@ -75,8 +93,37 @@ const NewPipeline = () => {
           <label htmlFor="descr">Description</label>
           <input id="descr" name="descr" type="text" required />
           <br />
-          <label htmlFor="file">File path</label>
-          <input id="file" name="file" type="text" required />
+          <label htmlFor="file">
+            Programs
+            {data ? (
+              <>
+                <select onChange={chooseProgram}>
+                  {Object.keys(data).map((p, i) => (
+                    <option value={p} key={i}>
+                      {data[p].name}
+                    </option>
+                  ))}
+                </select>
+                <button onClick={() => addProgram()}>Add</button>
+              </>
+            ) : (
+              <select>
+                <option>Loading...</option>
+              </select>
+            )}
+          </label>
+          <br />
+
+          <p>Chosen programs:</p>
+          {programsList.length === 0 ? (
+            <p>None yet</p>
+          ) : (
+            <ul>
+              {programsList.map((p, i) => (
+                <li key={i}>{data[p].name}</li>
+              ))}
+            </ul>
+          )}
           <br />
           <button type="submit">Send</button>
         </form>
