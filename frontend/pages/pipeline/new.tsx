@@ -47,13 +47,20 @@ const NewPipeline = () => {
     }
     const name = target.name.value
     const descr = target.descr.value
-    const programs = programsList
+    let programObj: {[id: string]: string} = {}
+    let idx = 0
+    for (const prog of programsList){
+      programObj[idx.toString()] = prog
+      idx += 1
+    }
+    const programs = programObj
 
-    /*const res = await api.post('pipeline', {
-      program: { name, descr, programs },
-    })*/
+    const res = await api.post('pipeline', {
+      pipeline: { name, descr, programs },
+    })
     console.log({ name, descr, programs })
-    //setCreated(res.data)
+    console.log(res)
+    setCreated(res.data)
   }
 
   const chooseProgram = (e: SyntheticEvent) => {
@@ -66,10 +73,13 @@ const NewPipeline = () => {
   }
 
   const addProgram = () => {
-    const lst = programsList
+    const lst = [...programsList]
     console.log(selectedProgram)
-    lst.push(selectedProgram)
-    setProgramsList(lst)
+    if(selectedProgram !== ''){
+      lst.push(selectedProgram)
+      setProgramsList(lst)
+    }
+
   }
 
   return (
@@ -83,7 +93,7 @@ const NewPipeline = () => {
           <p>Program created with id {Object.keys(created)[0]}</p>
           <p>Name: {created[Object.keys(created)[0]].name}</p>
           <p>Description: {created[Object.keys(created)[0]].descr}</p>
-          <p>Programs: {created[Object.keys(created)[0]].programs}</p>
+          <p>Programs: {Object.keys(created[Object.keys(created)[0]].programs).length}</p>
         </>
       ) : (
         <form onSubmit={savePipeline}>
@@ -98,13 +108,14 @@ const NewPipeline = () => {
             {data ? (
               <>
                 <select onChange={chooseProgram}>
+                  <option value={''}>Choose...</option>
                   {Object.keys(data).map((p, i) => (
                     <option value={p} key={i}>
                       {data[p].name}
                     </option>
                   ))}
                 </select>
-                <button onClick={() => addProgram()}>Add</button>
+                <button type="button" onClick={() => addProgram()}>Add</button>
               </>
             ) : (
               <select>
