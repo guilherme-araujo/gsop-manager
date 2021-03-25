@@ -47,9 +47,9 @@ const NewPipeline = () => {
     }
     const name = target.name.value
     const descr = target.descr.value
-    let programObj: {[id: string]: string} = {}
-    let idx = 0
-    for (const prog of programsList){
+    let programObj: { [id: string]: string } = {}
+    let idx = 1
+    for (const prog of programsList) {
       programObj[idx.toString()] = prog
       idx += 1
     }
@@ -75,11 +75,10 @@ const NewPipeline = () => {
   const addProgram = () => {
     const lst = [...programsList]
     console.log(selectedProgram)
-    if(selectedProgram !== ''){
+    if (selectedProgram !== '') {
       lst.push(selectedProgram)
       setProgramsList(lst)
     }
-
   }
 
   return (
@@ -93,7 +92,10 @@ const NewPipeline = () => {
           <p>Program created with id {Object.keys(created)[0]}</p>
           <p>Name: {created[Object.keys(created)[0]].name}</p>
           <p>Description: {created[Object.keys(created)[0]].descr}</p>
-          <p>Programs: {Object.keys(created[Object.keys(created)[0]].programs).length}</p>
+          <p>
+            Programs:{' '}
+            {Object.keys(created[Object.keys(created)[0]].programs).length}
+          </p>
         </>
       ) : (
         <form onSubmit={savePipeline}>
@@ -115,7 +117,9 @@ const NewPipeline = () => {
                     </option>
                   ))}
                 </select>
-                <button type="button" onClick={() => addProgram()}>Add</button>
+                <button type="button" onClick={() => addProgram()}>
+                  Add
+                </button>
               </>
             ) : (
               <select>
