@@ -105,11 +105,11 @@ const NewPipeline = () => {
           <label htmlFor="descr">Description</label>
           <input id="descr" name="descr" type="text" required />
           <br />
-          <label htmlFor="file">
+          <label htmlFor="program">
             Programs
             {data ? (
               <>
-                <select onChange={chooseProgram}>
+                <select name="program" onChange={chooseProgram}>
                   <option value={''}>Choose...</option>
                   {Object.keys(data).map((p, i) => (
                     <option value={p} key={i}>
@@ -122,7 +122,7 @@ const NewPipeline = () => {
                 </button>
               </>
             ) : (
-              <select>
+              <select name="program">
                 <option>Loading...</option>
               </select>
             )}
