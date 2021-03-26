@@ -37,7 +37,13 @@ const NewProgram = () => {
     const name = target.name.value
     const descr = target.descr.value
     const pipeline = target.pipeline.value
-    const parametersByProgram = {}
+    const parametersByProgram: ParameterProgramType = {}
+
+    console.log(data[pipeline].programs[0])
+
+    for (const prog of Object.keys(data[pipeline].programs)) {
+      parametersByProgram[data[pipeline].programs[prog]] = []
+    }
 
     const res = await api.post('simulation', {
       simulation: { name, descr, pipeline, parametersByProgram },
