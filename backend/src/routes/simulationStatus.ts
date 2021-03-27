@@ -10,4 +10,6 @@ router.get('/', simulationStatusController.listAll)
 //return simulation result of a certain uuid
 router.get('/id/:id', simulationStatusController.findOne)
 
+router.get('/init', simulationStatusController.init)
+
 export default router
