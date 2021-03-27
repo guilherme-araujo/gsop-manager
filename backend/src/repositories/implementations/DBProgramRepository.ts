@@ -28,7 +28,6 @@ export class DBProgramRepository {
     }
     idList[newId] = newProgram
     const ok = await put('programs', idList)
-    console.log(ok)
     return res.status(201).json({ [newId]: ok[newId] })
   }
 }

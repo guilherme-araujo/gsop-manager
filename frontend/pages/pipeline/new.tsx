@@ -58,8 +58,6 @@ const NewPipeline = () => {
     const res = await api.post('pipeline', {
       pipeline: { name, descr, programs },
     })
-    console.log({ name, descr, programs })
-    console.log(res)
     setCreated(res.data)
   }
 
@@ -68,13 +66,11 @@ const NewPipeline = () => {
     const target = e.target as typeof e.target & {
       value: string
     }
-    console.log(target.value)
     setSelectedProgram(target.value)
   }
 
   const addProgram = () => {
     const lst = [...programsList]
-    console.log(selectedProgram)
     if (selectedProgram !== '') {
       lst.push(selectedProgram)
       setProgramsList(lst)

@@ -39,14 +39,13 @@ const NewSimulation = () => {
     const pipeline = target.pipeline.value
     const parametersByProgram: ParameterProgramType = {}
 
-    //console.log(data[pipeline].programs[0])
-
+    //getting parameters for each program. this should be moved to the backend later
     for (const prog of Object.keys(data[pipeline].programs)) {
       const paramsArray: Array<ParameterValueType> = []
       try {
-        const params = await api.get(
-          `parameter/program/${data[pipeline].programs[prog]}`
-        )
+        const params = (
+          await api.get(`parameter/program/${data[pipeline].programs[prog]}`)
+        ).data
         if (!('msg' in Object.keys(params))) {
           for (const parameter of Object.keys(params)) {
             paramsArray.push({ parameter, value: '' })
@@ -61,7 +60,6 @@ const NewSimulation = () => {
     const res = await api.post('simulation', {
       simulation: { name, descr, pipeline, parametersByProgram },
     })
-    console.log(res)
     setCreated(res.data)
   }
 

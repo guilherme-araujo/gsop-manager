@@ -15,8 +15,6 @@ const Simulation = () => {
   const { data: simulationData } = useFetch(`simulation/id/${id}`)
   const { data: programData } = useFetch(`program/id/${program}`)
 
-  console.log(simulationData, programData)
-
   return (
     <Layout title="User Area | GSOP Manager">
       <Link href="/simulation">Simulations</Link>

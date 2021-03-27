@@ -40,29 +40,22 @@ class SimulationController {
     } finally {
       if (sims['msg']) return res.json({ msg: 'Simulation not found.' })
     }
-    //console.log(sims)
     const sim = sims[srun]
 
     if (sim['parametersByProgram']) {
       const progId = Object.keys(sim['parametersByProgram'])[0]
-      //console.log(progId)
       const params = sim['parametersByProgram'][progId]
-      //console.log(params)
       const progs = await get('programs')
-      //console.log(progs)
       const prog = progs[progId]
-      //console.log(prog)
       let cmd = prog['binaryPath'] + ' '
       const paramList = await get('parameters')
       for (const param of params) {
         cmd += paramList[param['parameter']]['param'] + param['value'] + ' '
       }
-      console.log(cmd)
       sim.status = '2'
       sims[srun] = sim
       put('simulations', sims)
       exec(cmd, (error, stdout, stderr) => {
-        console.log({ error, stdout, stderr })
         if (error) {
           sim.status = '4'
           sims[srun] = sim

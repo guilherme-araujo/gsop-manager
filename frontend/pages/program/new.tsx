@@ -28,7 +28,6 @@ const NewProgram = () => {
     const res = await api.post('program', {
       program: { name, descr, binaryPath },
     })
-    console.log(res)
     setCreated(res.data)
   }
 
