@@ -23,7 +23,7 @@ type SimulationType = {
   }
 }
 
-const NewProgram = () => {
+const NewSimulation = () => {
   const [created, setCreated] = useState<SimulationType | undefined>(undefined)
   const { data } = useFetch('pipeline')
 
@@ -39,10 +39,23 @@ const NewProgram = () => {
     const pipeline = target.pipeline.value
     const parametersByProgram: ParameterProgramType = {}
 
-    console.log(data[pipeline].programs[0])
+    //console.log(data[pipeline].programs[0])
 
     for (const prog of Object.keys(data[pipeline].programs)) {
-      parametersByProgram[data[pipeline].programs[prog]] = []
+      const paramsArray: Array<ParameterValueType> = []
+      try {
+        const params = await api.get(
+          `parameter/program/${data[pipeline].programs[prog]}`
+        )
+        if (!('msg' in Object.keys(params))) {
+          for (const parameter of Object.keys(params)) {
+            paramsArray.push({ parameter, value: '' })
+          }
+        }
+      } catch (err) {
+      } finally {
+        parametersByProgram[data[pipeline].programs[prog]] = paramsArray
+      }
     }
 
     const res = await api.post('simulation', {
@@ -98,4 +111,4 @@ const NewProgram = () => {
   )
 }
 
-export default NewProgram
+export default NewSimulation

@@ -11,7 +11,7 @@ type Props = {
 
 export default function ParameterConfig({ parameterValue }: Props) {
   const { data } = useFetch(`parameter/id/${parameterValue.parameter}`)
-
+  console.log('paramvalue', parameterValue, data)
   return (
     <div>
       {data ? <>{data.name}</> : <>Loading...</>}:{' '}
