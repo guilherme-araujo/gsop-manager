@@ -18,6 +18,15 @@ class SimulationController {
     return res.json(simulations[id])
   }
 
+  async update(req: Request, res: Response) {
+    const simulations = await get('simulations')
+    const id = req.params.id
+    simulations[id] = req.body.simulation
+    const ok = await put('simulations', simulations)
+
+    return res.json(ok)
+  }
+
   async save(req: Request, res: Response) {
     const newSimulation = req.body.simulation
     const newId = uuid()
@@ -70,8 +79,6 @@ class SimulationController {
 
       return res.json({ launched: true })
     }
-
-    //exec('')
 
     return res.json({ launched: false })
   }

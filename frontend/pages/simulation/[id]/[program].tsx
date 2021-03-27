@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { SyntheticEvent, useState } from 'react'
 import Layout from '../../../components/Layout'
 import ParameterConfig from '../../../components/ParameterConfig'
-import { useFetch } from '../../../utils/api'
+import { api, useFetch } from '../../../utils/api'
 
 type ParameterValues = {
   parameter: string
@@ -11,9 +12,28 @@ type ParameterValues = {
 
 const Simulation = () => {
   const router = useRouter()
+  const [updated, setUpdated] = useState(false)
   const { id, program } = router.query
   const { data: simulationData } = useFetch(`simulation/id/${id}`)
   const { data: programData } = useFetch(`program/id/${program}`)
+
+  const updateSimulation = async (e: SyntheticEvent) => {
+    e.preventDefault()
+    const target = e.target as typeof e.target & {
+      [param: string]: { value: string }
+    }
+    for (const param of simulationData.parametersByProgram[
+      `${program}`
+    ].keys()) {
+      simulationData.parametersByProgram[`${program}`][param].value =
+        target[param].value
+    }
+    //console.log(id, simulationData)
+    await api.put(`simulation/id/${id}`, {
+      simulation: simulationData,
+    })
+    setUpdated(true)
+  }
 
   return (
     <Layout title="User Area | GSOP Manager">
@@ -28,14 +48,19 @@ const Simulation = () => {
       {!simulationData ? (
         <p>Loading...</p>
       ) : (
-        <>
+        <form onSubmit={updateSimulation}>
           {simulationData.parametersByProgram[`${program}`].map(
-            (pvalue: ParameterValues, i: number) => (
-              <ParameterConfig parameterValue={pvalue} key={i} />
+            (pvalue: ParameterValues, idx: number) => (
+              <ParameterConfig
+                parameterValue={{ pvalue, idx, updated }}
+                key={idx}
+              />
             )
           )}
-        </>
+          <button type="submit">Update</button>
+        </form>
       )}
+      {updated ? <p>Updated successfully!</p> : <></>}
     </Layout>
   )
 }
