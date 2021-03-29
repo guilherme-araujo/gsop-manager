@@ -29,6 +29,7 @@ class SimulationController {
 
   async save(req: Request, res: Response) {
     const newSimulation = req.body.simulation
+    newSimulation['status'] = '1'
     const newId = uuid()
     let idList = {}
     try {
