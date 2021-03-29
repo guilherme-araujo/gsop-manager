@@ -67,6 +67,7 @@ class SimulationController {
       put('simulations', sims)
       exec(cmd, (error, stdout, stderr) => {
         if (error) {
+          console.log(error, stderr)
           sim.status = '4'
           sims[srun] = sim
           put('simulations', sims)

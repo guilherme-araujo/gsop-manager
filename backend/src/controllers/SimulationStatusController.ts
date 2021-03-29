@@ -21,12 +21,12 @@ class SimulationStatusController {
   async init(req: Request, res: Response) {
     const result = await put(
       'simulationStatus',
-      JSON.stringify({
-        1: 'Pending',
-        2: 'Started',
-        3: 'Finished',
-        4: 'Failed',
-      })
+      {
+        '1': 'Pending',
+        '2': 'Started',
+        '3': 'Finished',
+        '4': 'Failed',
+      }
     )
     return res.json(result)
   }

@@ -7,4 +7,5 @@ services:
       - 5002:3333
     volumes:
       - .:/usr/app
+      - /home/gfaraujo/simtest:/external
       - /usr/app/node_modules
