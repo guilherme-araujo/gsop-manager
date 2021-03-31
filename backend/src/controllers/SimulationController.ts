@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { get, put } from '../database'
 import { v4 as uuid } from 'uuid'
 import { ISimulationRepository } from '../repositories/ISimulationRepository'
-import { exec } from 'child_process'
+import { exec, execSync } from 'child_process'
 
 class SimulationController {
   constructor(private simulationRepository?: ISimulationRepository) {}
@@ -45,12 +45,18 @@ class SimulationController {
   async run(req: Request, res: Response) {
     const srun = req.params.id
     let sims = {}
+    let pipes = {}
     try {
       sims = await get('simulations')
+      pipes = await get('pipelines')
     } finally {
       if (sims['msg']) return res.json({ msg: 'Simulation not found.' })
+      if (pipes['msg']) return res.json({ msg: 'Pipeline not found.' })
     }
     const sim = sims[srun]
+    console.log(sim)
+    const pipe = pipes[sim['pipeline']]
+    console.log(pipe)
 
     if (sim['parametersByProgram']) {
       const progId = Object.keys(sim['parametersByProgram'])[0]
@@ -65,19 +71,27 @@ class SimulationController {
       sim.status = '2'
       sims[srun] = sim
       put('simulations', sims)
-      exec(cmd, (error, stdout, stderr) => {
-        if (error) {
-          console.log(error, stderr)
-          sim.status = '4'
+      console.log(cmd)
+      execSync(
+        `cp -r /external/pipelines/${pipe['rootDir']} /external/simulations/${srun}`
+      )
+
+      exec(
+        `/external/simulations/${srun}/` + cmd,
+        async (error, stdout, stderr) => {
+          if (error) {
+            console.log(error, stderr)
+            sim.status = '4'
+            sims[srun] = sim
+            put('simulations', sims)
+            return
+          }
+
+          sim.status = '3'
           sims[srun] = sim
           put('simulations', sims)
-          return
         }
-
-        sim.status = '3'
-        sims[srun] = sim
-        put('simulations', sims)
-      })
+      )
 
       return res.json({ launched: true })
     }

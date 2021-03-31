@@ -6,6 +6,7 @@ export class Pipeline {
 
   public name: string
   public descr: string
+  public rootFolder: string
   public programs: Program[] = []
 
   constructor(props: Omit<Pipeline, 'id' | 'programs'>, id?: string) {

@@ -44,9 +44,11 @@ const NewPipeline = () => {
     const target = e.target as typeof e.target & {
       name: { value: string }
       descr: { value: string }
+      rootDir: { value: string }
     }
     const name = target.name.value
     const descr = target.descr.value
+    const rootDir = target.rootDir.value
     let programObj: { [id: string]: string } = {}
     let idx = 1
     for (const prog of programsList) {
@@ -56,7 +58,7 @@ const NewPipeline = () => {
     const programs = programObj
 
     const res = await api.post('pipeline', {
-      pipeline: { name, descr, programs },
+      pipeline: { name, descr, rootDir, programs },
     })
     setCreated(res.data)
   }
@@ -100,6 +102,9 @@ const NewPipeline = () => {
           <br />
           <label htmlFor="descr">Description</label>
           <input id="descr" name="descr" type="text" required />
+          <br />
+          <label htmlFor="rootDir">Root directory</label>
+          <input id="rootDir" name="rootDir" type="text" required />
           <br />
           <label htmlFor="program">
             Programs

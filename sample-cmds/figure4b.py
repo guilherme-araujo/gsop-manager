@@ -17,23 +17,12 @@ files = [
     {'file': 'a9g1', 'bonus': '0.09'}
 ]
 
-testParamVal = ''
-
-for arg in sys.argv:
-    if "testParam" in arg:
-        testParamVal = (arg.split('='))[1]
+al = []
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-os.system('echo '+testParamVal+' > ' + dir_path + '/testParam.txt')
-
-al = []
-
-os.system('touch ' + dir_path + '/' + 'job-over.txt')
-
-
 for f in files:
-    with open(dir_path + '/' + f['file']+'/'+f['file']+'.txt') as csv_file_r:
+    with open(dir_path+'/'+f['file']+'/'+f['file']+'.txt') as csv_file_r:
         print(f['file'])
         csv_reader = csv.reader(csv_file_r, delimiter=';')
         e00 = []
@@ -70,9 +59,5 @@ ax.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=500000))
 plt.tight_layout()
 
 #plt.show()
-plt.savefig(dir_path + '/'+"output/lineplot-4b.svg")
-plt.savefig(dir_path + '/'+"output/lineplot-4b.png", dpi=200)
-
-
-
-os.system('echo 1 > ' + dir_path + '/' + 'job-over.txt')
+plt.savefig(dir_path+"/output/lineplot-4b.svg")
+plt.savefig(dir_path+"/output/lineplot-4b.png", dpi=200)
