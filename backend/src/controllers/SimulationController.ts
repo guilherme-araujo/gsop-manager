@@ -68,39 +68,48 @@ class SimulationController {
       sim.status = '2'
       sims[srun] = sim
       put('simulations', sims)
+      const errorList = []
 
       const runPipe = async () => {
-        execSync(
-          `cp -r /external/pipelines/${pipe['rootDir']} /external/simulations/${srun}`
-        )
-
-        let cmd = ''
-
-        for (const progId of Object.keys(sim['parametersByProgram'])[0]) {
+        try {
+          execSync(
+            `cp -r /external/pipelines/${pipe['rootDir']} /external/simulations/${srun}`
+          )
+        } catch (err) {
+          errorList.push(err)
+        }
+        console.log('progs', progs)
+        for (const progId of Object.keys(sim['parametersByProgram'])) {
+          let cmd = ''
           const prog = progs[progId]
+          console.log(progId, prog)
           cmd += prog['binaryPath'] + ' '
           for (const param of params) {
             cmd += paramList[param['parameter']]['param'] + param['value'] + ' '
           }
           console.log(cmd)
+          try {
+            const output = execSync(
+              `cd /external/simulations/${srun}/ && ./` + cmd
+            ).toString()
+          } catch (err) {
+            errorList.push(err)
+            break
+          }
         }
 
-        const output = execSync(`/external/simulations/${srun}/` + cmd)
-      }
-
-      ;async (error, stdout, stderr) => {
-        if (error) {
-          console.log(error, stderr)
+        if (errorList.length > 0) {
           sim.status = '4'
           sims[srun] = sim
           put('simulations', sims)
-          return
+        } else {
+          sim.status = '3'
+          sims[srun] = sim
+          put('simulations', sims)
         }
-
-        sim.status = '3'
-        sims[srun] = sim
-        put('simulations', sims)
       }
+
+      runPipe()
 
       return res.json({ launched: true })
     }
