@@ -1,33 +1,80 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import ParameterConfigList from '../../components/ParameterConfigList'
 import SimulationStatus from '../../components/SimulationStatus'
-import { useFetch } from '../../utils/api'
+import { SingleSimulationType } from '../../types/types'
+import { api } from '../../utils/api'
 
 const Simulation = () => {
   const router = useRouter()
   const { id } = router.query
-  const { data } = useFetch(`simulation/id/${id}`)
+  const [simData, setSimData] = useState<SingleSimulationType | undefined>(
+    undefined
+  )
+  const [launchFailed, setLaunchFailed] = useState(false)
+  const [launched, setLaunched] = useState(false)
+  const [updateSim, setUpdateSim] = useState(false)
+
+  const startSimulation = async () => {
+    const res = await api.get(`simulation/run/${id}`)
+    if (res.data['launched'] === false) {
+      setLaunchFailed(true)
+    }
+    const updatedData = (await api.get(`simulation/id/${id}`)).data
+    setSimData({
+      status: updatedData.status,
+      name: updatedData.name,
+      descr: updatedData.descr,
+      pipeline: updatedData.pipeline,
+      parametersByProgram: updatedData.parametersByProgram,
+    })
+    setLaunched(true)
+    setUpdateSim(true)
+  }
+
+  useEffect(() => {
+    const simData = api.get(`simulation/id/${id}`)
+    console.log('chamou 1')
+    simData.then((sim) => {
+      console.log(sim)
+      if (sim.data.status === '2') {
+        setUpdateSim(true)
+      }
+      setSimData(sim.data)
+    })
+    if (updateSim) {
+      setTimeout(() => {
+        setUpdateSim(false)
+      }, 2000)
+    }
+  }, [launched, launchFailed, id, updateSim])
 
   return (
     <Layout title="User Area | GSOP Manager">
       <Link href="/simulation">Simulations</Link>
       <h1>This is Simulation {id}</h1>
-      {!data || !id ? (
+      {!simData || !id ? (
         <p>Loading...</p>
       ) : (
         <>
-          <SimulationStatus status={data.status} />
-          <p>Name: {data.name} </p>
-          <p>Descriptions: {data.descr} </p>
-          <p>Pipeline: {data.pipeline} </p>
+          <SimulationStatus status={simData.status} />
+          <p>Name: {simData.name} </p>
+          <p>Descriptions: {simData.descr} </p>
+          <p>Pipeline: {simData.pipeline} </p>
           <p>Configure parameters: </p>
           <ParameterConfigList
-            parametersByProgram={data.parametersByProgram}
+            parametersByProgram={simData.parametersByProgram}
             simulation={id}
           />
-          <button>Start now</button>
+          {simData.status === '1' && launched === false ? (
+            <button onClick={() => startSimulation()}>Start now</button>
+          ) : (
+            <button disabled>Launched</button>
+          )}
+          {launchFailed ? <p>Launch failed.</p> : <></>}
+
           <p>Results: None yet</p>
         </>
       )}

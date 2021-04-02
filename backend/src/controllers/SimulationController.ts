@@ -3,6 +3,9 @@ import { get, put } from '../database'
 import { v4 as uuid } from 'uuid'
 import { ISimulationRepository } from '../repositories/ISimulationRepository'
 import { exec, execSync } from 'child_process'
+import { promisify } from 'util'
+
+const promExec = promisify(exec)
 
 class SimulationController {
   constructor(private simulationRepository?: ISimulationRepository) {}
@@ -42,6 +45,16 @@ class SimulationController {
     return res.status(201).json({ [newId]: ok[newId] })
   }
 
+  async reset(req: Request, res: Response) {
+    const simulations = await get('simulations')
+    const id = req.params.id
+    const sim = simulations[id]
+    sim['status'] = '1'
+    simulations[id] = sim
+    const ok = await put('simulations', simulations)
+    return res.json(ok)
+  }
+
   async run(req: Request, res: Response) {
     const srun = req.params.id
     let sims = {}
@@ -54,9 +67,7 @@ class SimulationController {
       if (pipes['msg']) return res.json({ msg: 'Pipeline not found.' })
     }
     const sim = sims[srun]
-    console.log(sim)
     const pipe = pipes[sim['pipeline']]
-    console.log(pipe)
 
     if (sim['parametersByProgram']) {
       const progId = Object.keys(sim['parametersByProgram'])[0]
@@ -70,28 +81,25 @@ class SimulationController {
       put('simulations', sims)
       const errorList = []
 
-      const runPipe = async () => {
+      async function runPipe() {
         try {
-          execSync(
+          const output = await promExec(
             `cp -r /external/pipelines/${pipe['rootDir']} /external/simulations/${srun}`
           )
         } catch (err) {
           errorList.push(err)
         }
-        console.log('progs', progs)
         for (const progId of Object.keys(sim['parametersByProgram'])) {
           let cmd = ''
           const prog = progs[progId]
-          console.log(progId, prog)
           cmd += prog['binaryPath'] + ' '
           for (const param of params) {
             cmd += paramList[param['parameter']]['param'] + param['value'] + ' '
           }
-          console.log(cmd)
           try {
-            const output = execSync(
+            const output = await promExec(
               `cd /external/simulations/${srun}/ && ./` + cmd
-            ).toString()
+            )
           } catch (err) {
             errorList.push(err)
             break
@@ -99,6 +107,7 @@ class SimulationController {
         }
 
         if (errorList.length > 0) {
+          console.log(errorList)
           sim.status = '4'
           sims[srun] = sim
           put('simulations', sims)
@@ -108,7 +117,12 @@ class SimulationController {
           put('simulations', sims)
         }
       }
-
+      /*console.log('before call')
+      let prom = runPipe().then(() => {
+        console.log('runPipe over')
+      })
+      console.log(prom)
+      console.log('after call')*/
       runPipe()
 
       return res.json({ launched: true })

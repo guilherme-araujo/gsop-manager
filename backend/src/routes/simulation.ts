@@ -35,4 +35,6 @@ router.put('/id/:id', simulationController.update)
 
 router.get('/run/:id', simulationController.run)
 
+router.get('/reset/:id', simulationController.reset)
+
 export default router

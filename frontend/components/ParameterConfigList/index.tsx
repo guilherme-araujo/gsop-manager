@@ -1,16 +1,8 @@
 import Link from 'next/link'
-
-type ParameterValues = {
-  parameter: string
-  value: string
-}
-
-type ProgramParameters = {
-  [id: string]: Array<ParameterValues>
-}
+import { ParameterProgramType } from '../../types/types'
 
 type Props = {
-  parametersByProgram: ProgramParameters
+  parametersByProgram: ParameterProgramType
   simulation: string | string[]
 }
 
