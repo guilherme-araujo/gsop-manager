@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 
 const IndexPage = () => (
   <Layout title="Home | GSOP Manager">
-    <h1>Hello Next.js 👋</h1>
+    <h1>Graph Simulation Manager</h1>
     <p>
       <Link href="/userarea">
         <a>Enter</a>
