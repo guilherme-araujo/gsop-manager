@@ -1,0 +1,10 @@
+version: '3'
+services:
+  frontend:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 3001:3000
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
