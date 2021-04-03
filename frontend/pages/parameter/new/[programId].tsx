@@ -43,13 +43,20 @@ const NewParameter = () => {
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <Link href="/parameter">
-        <a>Back to parameters</a>
-      </Link>
       {program ? (
-        <h1>New Parameter for program {program.name}</h1>
+        <>
+          <Link href={`/parameter/program/${programId}`}>
+            <a>Back to parameters</a>
+          </Link>
+          <h1>New Parameter for program {program.name}</h1>
+        </>
       ) : (
-        <h1>New Parameter for program ...</h1>
+        <>
+          <Link href="/parameter">
+            <a>Back to parameters</a>
+          </Link>
+          <h1>New Parameter for program ...</h1>
+        </>
       )}
 
       {created ? (
