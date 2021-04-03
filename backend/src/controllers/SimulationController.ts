@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { ISimulationRepository } from '../repositories/ISimulationRepository'
 import { exec, execSync } from 'child_process'
 import { promisify } from 'util'
+import fs from 'fs'
 
 const promExec = promisify(exec)
 
@@ -43,6 +44,28 @@ class SimulationController {
     idList[newId] = newSimulation
     const ok = await put('simulations', idList)
     return res.status(201).json({ [newId]: ok[newId] })
+  }
+
+  async resultList(req: Request, res: Response) {
+    const simulations = await get('simulations')
+    const id = req.params.id
+    const sim = simulations[id]
+
+    if (sim['status'] !== '3') {
+      return res.status(400).json({ msg: 'Simulation not finished.' })
+    }
+    const files = fs.readdirSync(`/external/simulations/${id}/output`)
+    //console.log(files)
+    return res.json(files)
+  }
+
+  async resultDownload(req: Request, res: Response) {
+    const simulations = await get('simulations')
+    const id = req.params.id
+    const sim = simulations[id]
+    const fileName = `/external/simulations/${id}/output/${req.params.filename}`
+
+    return res.download(fileName)
   }
 
   async reset(req: Request, res: Response) {

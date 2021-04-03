@@ -37,4 +37,8 @@ router.get('/run/:id', simulationController.run)
 
 router.get('/reset/:id', simulationController.reset)
 
+router.get('/results/:id', simulationController.resultList)
+
+router.get('/resultdownload/:id/:filename', simulationController.resultDownload)
+
 export default router

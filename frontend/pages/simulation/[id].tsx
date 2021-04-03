@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import ParameterConfigList from '../../components/ParameterConfigList'
+import SimulationResultList from '../../components/SimulationResultList'
 import SimulationStatus from '../../components/SimulationStatus'
 import { SingleSimulationType } from '../../types/types'
 import { api } from '../../utils/api'
@@ -75,7 +76,11 @@ const Simulation = () => {
           )}
           {launchFailed ? <p>Launch failed.</p> : <></>}
 
-          <p>Results: None yet</p>
+          {simData.status !== '3' ? (
+            <p>Results: None yet</p>
+          ) : (
+            <SimulationResultList simulationId={id} />
+          )}
         </>
       )}
     </Layout>

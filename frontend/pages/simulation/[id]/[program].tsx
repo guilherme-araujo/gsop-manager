@@ -48,17 +48,23 @@ const Simulation = () => {
       {!simulationData ? (
         <p>Loading...</p>
       ) : (
-        <form onSubmit={updateSimulation}>
-          {simulationData.parametersByProgram[`${program}`].map(
-            (pvalue: ParameterValues, idx: number) => (
-              <ParameterConfig
-                parameterValue={{ pvalue, idx, updated }}
-                key={idx}
-              />
-            )
+        <>
+          {simulationData.parametersByProgram[`${program}`].length > 0 ? (
+            <form onSubmit={updateSimulation}>
+              {simulationData.parametersByProgram[`${program}`].map(
+                (pvalue: ParameterValues, idx: number) => (
+                  <ParameterConfig
+                    parameterValue={{ pvalue, idx, updated }}
+                    key={idx}
+                  />
+                )
+              )}
+              <button type="submit">Update</button>
+            </form>
+          ) : (
+            <p>No parameters configured for this program.</p>
           )}
-          <button type="submit">Update</button>
-        </form>
+        </>
       )}
       {updated ? <p>Updated successfully!</p> : <></>}
     </Layout>
