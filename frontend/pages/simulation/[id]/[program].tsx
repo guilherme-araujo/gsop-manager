@@ -59,7 +59,13 @@ const Simulation = () => {
                   />
                 )
               )}
-              <button type="submit">Update</button>
+              {simulationData.status !== '1' ? (
+                <button type="submit" disabled>
+                  Update
+                </button>
+              ) : (
+                <button type="submit">Update</button>
+              )}
             </form>
           ) : (
             <p>No parameters configured for this program.</p>

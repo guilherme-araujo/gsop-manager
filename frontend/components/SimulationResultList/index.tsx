@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useFetch } from '../../utils/api'
 
 type Props = {
@@ -16,9 +17,30 @@ export default function SimulationResultList({ simulationId }: Props) {
       <>
         <p>Results:</p>
         <ul>
-          {data.map((fileName: string, i: string) => (
-            <li key={i}>{fileName}</li>
-          ))}
+          {data.map((fileName: string, i: string) => {
+            if (
+              fileName.split('.')[1] === 'jpg' ||
+              fileName.split('.')[1] === 'png'
+            ) {
+              return (
+                <li key={i}>
+                  <Link href={`/simulation/${simulationId}/result/${fileName}`}>
+                    <a>{fileName}</a>
+                  </Link>
+                </li>
+              )
+            } else {
+              return (
+                <li key={i}>
+                  <Link
+                    href={`/api/resultdownload/${simulationId}/${fileName}`}
+                  >
+                    <a>{fileName}</a>
+                  </Link>
+                </li>
+              )
+            }
+          })}
         </ul>
       </>
     )

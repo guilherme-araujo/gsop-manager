@@ -65,7 +65,7 @@ class SimulationController {
     const sim = simulations[id]
     const fileName = `/external/simulations/${id}/output/${req.params.filename}`
 
-    return res.download(fileName)
+    return res.sendFile(fileName)
   }
 
   async reset(req: Request, res: Response) {
