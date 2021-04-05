@@ -1,22 +1,20 @@
-import { Request, Response } from 'express'
 import { IPipelineRepository } from '../IPipelineRepository'
 import { v4 as uuid } from 'uuid'
 import { get, put } from '../../database'
 import { DBProgramRepository } from './DBProgramRepository'
+import { Pipeline } from '../../entities/Pipeline'
+import { Program } from '../../entities/Program'
 
-export class DBPipelineRepository {
+export class DBPipelineRepository implements IPipelineRepository {
   private programController = new DBProgramRepository()
-  constructor(private pipelineRepository?: IPipelineRepository) {}
 
-  async listAll(req: Request, res: Response) {
+  async listAll() {
     const pipelines = await get('pipelines')
-    return res.json(pipelines)
+    return pipelines
   }
-  async findOne(req: Request, res: Response) {
+  async findOne(id: string) {
     const pipelines = await get('pipelines')
-    const id = req.params.id
 
-    //move this logic to the repositories later
     const pipeline = pipelines[id]
     const programObjs = {}
 
@@ -26,10 +24,10 @@ export class DBPipelineRepository {
     }
     pipeline['programObjs'] = programObjs
 
-    return res.json(pipeline)
+    return pipeline
   }
-  async save(req: Request, res: Response) {
-    const newPipeline = req.body.pipeline
+
+  async save(pipeline: Pipeline) {
     const newId = uuid()
     let idList = {}
     try {
@@ -37,8 +35,21 @@ export class DBPipelineRepository {
     } finally {
       idList = idList['err'] ? {} : idList
     }
-    idList[newId] = newPipeline
-    const ok = await put('pipelines', idList)
-    return res.status(201).json({ [newId]: ok[newId] })
+    idList[newId] = pipeline
+    await put('pipelines', idList)
+    return pipeline
+  }
+
+  async linkPipelineProgram(pipeline: Pipeline, program: Program){
+    const newId = uuid()
+    let idList = {}
+    try {
+      idList = await get('pipeline-program')
+    } finally {
+      idList = idList['err'] ? {} : idList
+    }
+    idList[newId] = pipeline.id, program.id
+
+    await put('pipeline-program', idList)
   }
 }

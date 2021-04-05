@@ -7,7 +7,7 @@ export interface ISimulationResultRepository {
   findOne(id: string): Promise<SimulationResult>
 
   linkSimulationResultSimulation(
-    SimulationResult: SimulationResult,
+    simulationResult: SimulationResult,
     simulation: Simulation
   ): Promise<void>
 }
