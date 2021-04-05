@@ -14,7 +14,7 @@ const Program = () => {
           <h1>Result image {file}</h1>
 
           <img
-            src={`http://localhost:3001/gsop-admin-web/api/resultdownload/${id}/${file}`}
+            src={`/gsop-admin-web/api/resultdownload/${id}/${file}`}
           />
         </>
       ) : (
