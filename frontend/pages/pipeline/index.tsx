@@ -1,13 +1,14 @@
-import Link from "next/link";
-import Layout from "../../components/Layout";
-import { useFetch } from "../../utils/api";
+import Link from 'next/link';
+import Header from '../../components/Header';
+import Layout from '../../components/Layout';
+import { useFetch } from '../../utils/api';
 
 const Pipelines = () => {
   const { data } = useFetch("pipeline");
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <h1>Pipelines</h1>
+      <Header title={"Pipelines"} href={""} link={""}/>
       {!data ? (
         <p>Loading...</p>
       ) : (

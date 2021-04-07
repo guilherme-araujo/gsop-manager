@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Header from '../../../../components/Header'
 import Layout from '../../../../components/Layout'
 
 const Program = () => {
@@ -10,9 +10,7 @@ const Program = () => {
     <Layout title="User Area | GSOP Manager">
       {id && file ? (
         <>
-          <Link href={`/simulation/${id}`}>Back to simulation</Link>
-          <h1>Result image {file}</h1>
-
+          <Header title={`Result image ${file}`} href={`/simulation/${id}`} link={"Back to simulation"}/>
           <img
             src={`/gsop-admin-web/api/resultdownload/${id}/${file}`}
           />
@@ -23,5 +21,4 @@ const Program = () => {
     </Layout>
   )
 }
-
 export default Program

@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Header from '../../components/Header';
 import Layout from '../../components/Layout'
 import { useFetch } from '../../utils/api'
 
@@ -10,8 +10,7 @@ const Program = () => {
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <Link href="/program">Programs</Link>
-      <h1>This is Program {id}</h1>
+      <Header title={`This is Program ${id}`} link={"Programs"} href={"/program"}/>
       {!data ? (
         <p>Loading...</p>
       ) : (

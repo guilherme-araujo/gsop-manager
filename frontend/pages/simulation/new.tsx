@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { SyntheticEvent, useState } from 'react'
+import Header from '../../components/Header'
 import Layout from '../../components/Layout'
 import { api, useFetch } from '../../utils/api'
 
@@ -65,10 +65,7 @@ const NewSimulation = () => {
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <Link href="/simulation">
-        <a>Back to simulations</a>
-      </Link>
-      <h1>New Simulation</h1>
+      <Header title={"New Simulation"} href={"/simulation"} link={"Back to simulations"} />
       {created ? (
         <>
           <p>Simulation created with id {Object.keys(created)[0]}</p>

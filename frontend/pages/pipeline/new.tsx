@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { SyntheticEvent, useState } from 'react'
+import Header from '../../components/Header'
 import Layout from '../../components/Layout'
 import { api, useFetch } from '../../utils/api'
 
@@ -81,10 +81,7 @@ const NewPipeline = () => {
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <Link href="/pipeline">
-        <a>Back to pipelines</a>
-      </Link>
-      <h1>New Pipeline</h1>
+      <Header title={"New Pipeline"} href={"pipeline"} link={"Back to pipelines"}/>
       {created ? (
         <>
           <p>Program created with id {Object.keys(created)[0]}</p>

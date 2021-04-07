@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SyntheticEvent, useState } from 'react'
+import Header from '../../../components/Header'
 import Layout from '../../../components/Layout'
 import ParameterConfig from '../../../components/ParameterConfig'
 import { api, useFetch } from '../../../utils/api'
@@ -37,9 +37,7 @@ const Simulation = () => {
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <Link href="/simulation">Simulations</Link>
-      <h1>This is Simulation {id}</h1>
-      <Link href={`/simulation/${id}`}>Back to simulation</Link>
+      <Header title={`This is Simulation ${id}`} href={"/simulation"} link={"Back to Simulations"}/>
       {!programData ? (
         <p>Loading...</p>
       ) : (

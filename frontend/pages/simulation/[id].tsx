@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
+import Header from '../../components/Header'
 import ParameterConfigList from '../../components/ParameterConfigList'
 import SimulationResultList from '../../components/SimulationResultList'
 import SimulationStatus from '../../components/SimulationStatus'
@@ -54,8 +54,7 @@ const Simulation = () => {
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <Link href="/simulation">Simulations</Link>
-      <h1>This is Simulation {id}</h1>
+      <Header title={`This is Simulation ${id}`} href="/simulation" link="Simulations" />
       {!simData || !id ? (
         <p>Loading...</p>
       ) : (

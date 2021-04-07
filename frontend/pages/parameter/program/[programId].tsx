@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Header from '../../../components/Header'
 import Layout from '../../../components/Layout'
 import ParamsByProgramList from '../../../components/ParamsByProgramList'
 import { useFetch } from '../../../utils/api'
@@ -12,15 +13,14 @@ const ParametersByProgram = () => {
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <Link href="/parameter">Back to parameters</Link>
       {(!paramList && !error) || !program ? (
         <>
-          <h1>Parameters of ...</h1>
+          <Header title={"Parameters of ..."} href={"/parameter"} link={"Back to parameters"}/>
           <p>Loading...</p>
         </>
       ) : (
         <>
-          <h1>Parameters of {program.name}</h1>
+          <Header title={`Parameters of ${program.name}`} href={"/parameter"} link={"Back to parameters"}/>
           <ParamsByProgramList parameterList={paramList} />
         </>
       )}

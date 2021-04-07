@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Header from '../../components/Header'
 import Layout from '../../components/Layout'
 import ProgramListInPipeline from '../../components/ProgramListInPipeline'
 import { useFetch } from '../../utils/api'
@@ -11,8 +11,7 @@ const Pipeline = () => {
 
   return (
     <Layout title="User Area | GSOP Manager">
-      <Link href="/pipeline">Pipelines</Link>
-      <h1>This is Pipeline {id}</h1>
+      <Header title={`This is Pipeline ${id}`} link={"Pipelines"} href={"/pipeline"}/>
       {!data ? (
         <p>Loading...</p>
       ) : (

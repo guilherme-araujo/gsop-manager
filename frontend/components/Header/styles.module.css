@@ -1,0 +1,14 @@
+.title {
+    font-family: 'Whitney';
+    font-style: italic;
+
+    margin-right: 50px;
+    display: flex;
+    align-items: left;
+}
+
+.link {
+    font-family: 'Whitney';
+
+    display: flex;
+}

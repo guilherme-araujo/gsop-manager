@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SyntheticEvent, useState } from 'react'
+import Header from '../../../components/Header'
 import Layout from '../../../components/Layout'
 import { api, useFetch } from '../../../utils/api'
 
@@ -44,19 +44,9 @@ const NewParameter = () => {
   return (
     <Layout title="User Area | GSOP Manager">
       {program ? (
-        <>
-          <Link href={`/parameter/program/${programId}`}>
-            <a>Back to parameters</a>
-          </Link>
-          <h1>New Parameter for program {program.name}</h1>
-        </>
+        <Header title={`New Parameter for program ${program.name}`} href={`/parameter/program/${programId}`} link="Back to parameters"/>
       ) : (
-        <>
-          <Link href="/parameter">
-            <a>Back to parameters</a>
-          </Link>
-          <h1>New Parameter for program ...</h1>
-        </>
+        <Header title={"New Parameter for program ..."} href={"/parameter"} link={"Back to parameters"}/>
       )}
 
       {created ? (
