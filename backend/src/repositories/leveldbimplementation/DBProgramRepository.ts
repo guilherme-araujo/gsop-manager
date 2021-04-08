@@ -4,8 +4,13 @@ import { get, put } from '../../database'
 import { Program } from '../../entities/Program'
 
 export class DBProgramRepository implements IProgramRepository{
-  async listAll() {
-    const programs = await get('programs')
+  async listAll(): Promise<Program[]> {
+    const response = await get('programs')
+    const programs = new Array<Program>() 
+    for(const key of Object.keys(response)){
+      const program = new Program(response[key], key)
+      programs.push(program)
+    }
     return programs
   }
 
