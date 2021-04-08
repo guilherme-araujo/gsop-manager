@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { listProgramsController } from 'src/useCases/ListPrograms'
+import { listProgramsController } from '../useCases/ListPrograms'
 import { ProgramController } from '../controllers/ProgramController'
 
 const router = Router()

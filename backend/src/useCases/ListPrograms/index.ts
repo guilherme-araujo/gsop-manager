@@ -1,4 +1,4 @@
-import { DBProgramRepository } from 'src/repositories/leveldbimplementation/DBProgramRepository'
+import { DBProgramRepository } from '../../repositories/leveldbimplementation/DBProgramRepository'
 import { ListProgramsController } from './ListProgramsController'
 import { ListProgramsUseCase } from './ListProgramsUseCase'
 
