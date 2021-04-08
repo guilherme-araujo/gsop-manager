@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { SyntheticEvent, useState } from 'react'
+import Form from '../../components/Form'
+import ProgramDescription from '../../components/ProgramDescription'
 import Layout from '../../components/Layout'
 import { api } from '../../utils/api'
 
@@ -38,25 +40,10 @@ const NewProgram = () => {
       </Link>
       <h1>New Program</h1>
       {created ? (
-        <>
-          <p>Program created with id {Object.keys(created)[0]}</p>
-          <p>Name: {created[Object.keys(created)[0]].name}</p>
-          <p>Description: {created[Object.keys(created)[0]].descr}</p>
-          <p>File path: {created[Object.keys(created)[0]].binaryPath}</p>
-        </>
+        <ProgramDescription id={Object.keys(created)[0]} name={created[Object.keys(created)[0]].name}
+        descr={created[Object.keys(created)[0]].descr} binaryPath={created[Object.keys(created)[0]].binaryPath}/>
       ) : (
-        <form onSubmit={saveProgram}>
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" type="text" required />
-          <br />
-          <label htmlFor="descr">Description</label>
-          <input id="descr" name="descr" type="text" required />
-          <br />
-          <label htmlFor="file">File path</label>
-          <input id="file" name="file" type="text" required />
-          <br />
-          <button type="submit">Send</button>
-        </form>
+        <Form save={saveProgram} name={""} descr={""} binarypath={""}/>
       )}
     </Layout>
   )
