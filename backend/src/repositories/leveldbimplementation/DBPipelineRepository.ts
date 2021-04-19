@@ -8,10 +8,16 @@ import { Program } from '../../entities/Program'
 export class DBPipelineRepository implements IPipelineRepository {
   private programController = new DBProgramRepository()
 
-  async listAll() {
-    const pipelines = await get('pipelines')
+  async listAll(): Promise<Pipeline[]> {
+    const response = await get('pipelines')
+    const pipelines = new Array<Pipeline>()
+    for (const key of Object.keys(response)){
+      const pipeline = new Pipeline(response[key], key)
+      pipelines.push(pipeline)
+    }
     return pipelines
   }
+  
   async findOne(id: string) {
     const pipelines = await get('pipelines')
 

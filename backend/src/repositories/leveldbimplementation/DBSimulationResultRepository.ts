@@ -5,8 +5,13 @@ import { Simulation } from '../../entities/Simulation'
 import { SimulationResult } from '../../entities/SimulationResult'
 
 export class DBSimulationResultRepository implements ISimulationResultRepository {
-  async listAll() {
-    const simulationResults = await get('simulationResults')
+  async listAll(): Promise<SimulationResult[]> {
+    const response = await get('simulationResults')
+    const simulationResults = new Array<SimulationResult>()
+    for(const key of Object.keys(response)){
+      const simulationResult = new SimulationResult(response[key], key)
+      simulationResults.push(simulationResult)
+    }
     return simulationResults
   }
   

@@ -8,8 +8,13 @@ import { SimulationResult } from '../../entities/SimulationResult'
 import { SimulationStatus } from '../../entities/SimulationStatus'
 
 export class DBSimulationRepository implements ISimulationRepository {
-  async listAll() {
-    const simulations = await get('simulations')
+  async listAll(): Promise<Simulation[]> {
+    const response = await get('simulations')
+    const simulations = new Array<Simulation>()
+    for(const key of Object.keys(response)){
+      const simulation = new Simulation(response[key], key)
+      simulations.push(simulation)
+    }
     return simulations
   }
 

@@ -3,12 +3,17 @@ import { v4 as uuid } from 'uuid'
 import { get, put } from '../../database'
 import { Program } from 'src/entities/Program'
 import { Parameter } from 'src/entities/Parameter'
+import { response } from 'express'
 
 
 export class DBParameterRepository implements IParameterRepository {
-  
-  async listAll(){
-    const parameters = await get('parameters')
+  async listAll(): Promise<Parameter[]>{
+    const response = await get('parameters')
+    const parameters = new Array<Parameter>()
+    for(const key of Object.keys(response)){
+      const parameter = new Parameter(response[key], key)
+      parameters.push(parameter)
+    }
     return parameters
   }
 
