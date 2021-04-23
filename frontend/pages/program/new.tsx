@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { SyntheticEvent, useState } from 'react'
-import ProgramForm from '../../components/Forms/ProgramForm'
+import Form from '../../components/Forms/ProgramForm'
 import ProgramDescription from '../../components/ProgramDescription'
 import Layout from '../../components/Layout'
 import { api } from '../../utils/api'
@@ -47,13 +47,7 @@ const NewProgram = () => {
           binaryPath={created[Object.keys(created)[0]].binaryPath}
         />
       ) : (
-        <ProgramForm save={saveProgram} name={''} descr={''} binarypath={''}>
-          <div>
-            <label htmlFor="file">File path</label>
-            <input id="file" name="file" type="text" required />
-            <br />
-          </div>
-        </ProgramForm>
+        <Form save={saveProgram} />
       )}
     </Layout>
   )

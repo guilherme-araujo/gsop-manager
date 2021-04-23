@@ -97,7 +97,13 @@ const NewPipeline = () => {
           </p>
         </>
       ) : (
-        <PipelineForm save={savePipeline} data={data} />
+        <PipelineForm
+          save={savePipeline}
+          addProgram={addProgram}
+          chooseProgram={chooseProgram}
+          programList={programsList}
+          data={data}
+        />
       )}
     </Layout>
   )

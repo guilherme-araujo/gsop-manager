@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SyntheticEvent, useState } from 'react'
+import ParameterForm from '../../../components/Forms/ParameterForm'
 import Layout from '../../../components/Layout'
 import { api, useFetch } from '../../../utils/api'
 
@@ -71,21 +72,7 @@ const NewParameter = () => {
           </p>
         </>
       ) : (
-        <form onSubmit={saveParameter}>
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" type="text" required />
-          <br />
-          <label htmlFor="descr">Description</label>
-          <input id="descr" name="descr" type="text" />
-          <br />
-          <label htmlFor="param">Param</label>
-          <input id="param" name="param" type="text" required />
-          <br />
-          <label htmlFor="optional">Optional</label>
-          <input id="optional" name="optional" type="checkbox" defaultChecked />
-          <br />
-          <button type="submit">Send</button>
-        </form>
+        <ParameterForm save={saveParameter} />
       )}
     </Layout>
   )

@@ -1,10 +1,10 @@
-import Form from '../ProgramForm'
+import Form from '../Form'
 import { SyntheticEvent } from 'react'
 
 interface props {
   save: (e: SyntheticEvent) => Promise<void>
-  addProgram: () => Promise<void>
-  chooseProgram: () => Promise<void>
+  addProgram: (e: SyntheticEvent) => void
+  chooseProgram: (e: SyntheticEvent) => void
   programList: Array<string>
   data: any
 }
@@ -28,7 +28,7 @@ export default function PipelineForm(props: props) {
                   </option>
                 ))}
               </select>
-              <button type="button" onClick={() => props.addProgram()}>
+              <button type="button" onClick={() => props.addProgram}>
                 Add
               </button>
             </>
