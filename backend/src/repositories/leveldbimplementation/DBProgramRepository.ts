@@ -14,9 +14,11 @@ export class DBProgramRepository implements IProgramRepository{
     return programs
   }
 
-  async findOne(id: string) {
-    const programs = await get('programs')
-    return programs[id]
+  async findOne(id: string):Promise<Program> {
+    const response = await get('programs')
+    const program = new Program(response[id], id);
+
+    return program
   }
 
   async save(program: Program) {

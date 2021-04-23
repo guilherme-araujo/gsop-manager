@@ -1,14 +1,14 @@
 import { IParameterRepository } from '../IParameterRepository'
 import { v4 as uuid } from 'uuid'
 import { get, put } from '../../database'
-import { Program } from '../../entities/Program'
-import { Parameter } from '../../entities/Parameter'
+import { Program } from 'src/entities/Program'
+import { Parameter } from 'src/entities/Parameter'
 
 export class DBParameterRepository implements IParameterRepository {
-  async listAll(): Promise<Parameter[]> {
+  async listAll(): Promise<Parameter[]>{
     const response = await get('parameters')
     const parameters = new Array<Parameter>()
-    for (const key of Object.keys(response)) {
+    for(const key of Object.keys(response)){
       const parameter = new Parameter(response[key], key)
       parameters.push(parameter)
     }
@@ -35,7 +35,7 @@ export class DBParameterRepository implements IParameterRepository {
   }
 
   async save(parameter: Parameter) {
-    const newId = parameter.id
+    const newId = uuid()
     let idList = {}
     try {
       idList = await get('parameters')
@@ -47,7 +47,7 @@ export class DBParameterRepository implements IParameterRepository {
     return parameter
   }
 
-  async linkParameterProgram(parameter: Parameter, program: Program) {
+  async linkParameterProgram(parameter: Parameter, program: Program){
     const newId = uuid()
     let idList = {}
     try {
@@ -55,7 +55,7 @@ export class DBParameterRepository implements IParameterRepository {
     } finally {
       idList = idList['err'] ? {} : idList
     }
-    ;(idList[newId] = parameter.id), program.id
+    idList[newId] = parameter.id, program.id
 
     await put('parameter-program', idList)
   }
