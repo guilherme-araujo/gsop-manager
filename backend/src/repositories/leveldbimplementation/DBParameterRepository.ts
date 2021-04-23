@@ -3,8 +3,6 @@ import { v4 as uuid } from 'uuid'
 import { get, put } from '../../database'
 import { Program } from 'src/entities/Program'
 import { Parameter } from 'src/entities/Parameter'
-import { response } from 'express'
-
 
 export class DBParameterRepository implements IParameterRepository {
   async listAll(): Promise<Parameter[]>{
