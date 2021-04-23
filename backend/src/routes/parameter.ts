@@ -1,11 +1,17 @@
 import { Request, Response, Router } from 'express'
+import { listParametersController } from '../useCases/ListParameters'
 import { ParameterController } from '../controllers/ParameterController'
+import { createParameterController } from '../useCases/CreateParameter'
 
 const router = Router()
 const parameterController = new ParameterController()
 
 //return parameter list
 router.get('/', parameterController.listAll)
+
+router.get('/v2', (request, response) => {
+  listParametersController.handle(request, response)
+})
 
 //return parameter of a certain uuid
 router.get('/id/:id', parameterController.findOne)
@@ -24,5 +30,9 @@ EXPECTED FORMAT FOR newParam:
 */
 
 router.post('/', parameterController.save)
+
+router.post('/v2', (request, response) => {
+  createParameterController.handle(request, response)
+})
 
 export default router
