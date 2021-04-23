@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { SyntheticEvent, useState } from 'react'
 import Layout from '../../components/Layout'
+import PipelineForm from '../../components/Forms/PipelineForm'
 import { api, useFetch } from '../../utils/api'
 
 type PipelineType = {
@@ -96,53 +97,7 @@ const NewPipeline = () => {
           </p>
         </>
       ) : (
-        <form onSubmit={savePipeline}>
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" type="text" required />
-          <br />
-          <label htmlFor="descr">Description</label>
-          <input id="descr" name="descr" type="text" required />
-          <br />
-          <label htmlFor="rootDir">Root directory</label>
-          <input id="rootDir" name="rootDir" type="text" required />
-          <br />
-          <label htmlFor="program">
-            Programs
-            {data ? (
-              <>
-                <select name="program" onChange={chooseProgram}>
-                  <option value={''}>Choose...</option>
-                  {Object.keys(data).map((p, i) => (
-                    <option value={p} key={i}>
-                      {data[p].name}
-                    </option>
-                  ))}
-                </select>
-                <button type="button" onClick={() => addProgram()}>
-                  Add
-                </button>
-              </>
-            ) : (
-              <select name="program">
-                <option>Loading...</option>
-              </select>
-            )}
-          </label>
-          <br />
-
-          <p>Chosen programs:</p>
-          {programsList.length === 0 ? (
-            <p>None yet</p>
-          ) : (
-            <ul>
-              {programsList.map((p, i) => (
-                <li key={i}>{data[p].name}</li>
-              ))}
-            </ul>
-          )}
-          <br />
-          <button type="submit">Send</button>
-        </form>
+        <PipelineForm save={savePipeline} data={data} />
       )}
     </Layout>
   )
