@@ -7,7 +7,7 @@ export interface IParameterRepository {
 
   findOne(id: string): Promise<Parameter>
 
-  findByProgram(program: Program): Promise<Parameter[]>
+  findByProgram(program: string): Promise<Parameter[]>
 
   save(parameter: Parameter): Promise<Parameter>
 
