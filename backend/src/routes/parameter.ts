@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express'
 import { listParametersController } from '../useCases/ListParameters'
 import { ParameterController } from '../controllers/ParameterController'
 import { createParameterController } from '../useCases/CreateParameter'
+import { findParameterByProgramController } from '../useCases/FindParameterByProgram'
 
 const router = Router()
 const parameterController = new ParameterController()
@@ -17,6 +18,10 @@ router.get('/v2', (request, response) => {
 router.get('/id/:id', parameterController.findOne)
 
 router.get('/program/:programid', parameterController.findByProgram)
+
+router.get('/v2/program/:programid', (request, response) => {
+  findParameterByProgramController.handle(request, response)
+})
 
 /*
 EXPECTED FORMAT FOR newParam:

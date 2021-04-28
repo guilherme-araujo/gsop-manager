@@ -23,11 +23,11 @@ export class DBParameterRepository implements IParameterRepository {
   async findByProgram(program: string) {
     const parameters = await get('parameters')
     const filteredParams = []
-    Object.keys(parameters).forEach((param, i) => {
-      if (parameters[param].program === program){
-        filteredParams[param] = parameters[param]
-      }
-    })
+
+    for (const key of Object.keys(parameters)) {
+      const parameter = new Parameter(parameters[key], key)
+      filteredParams.push(parameter)
+    }
 
     if (Object.keys(filteredParams).length > 0) {
       return filteredParams
