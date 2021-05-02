@@ -7,6 +7,7 @@ export class ListParametersController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
       const parameters = await this.listParametersUseCase.execute()
+      console.log(parameters)
       return response.send(parameters)
     } catch (err) {
       return response.status(400).json({
