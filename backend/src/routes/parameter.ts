@@ -1,7 +1,9 @@
 import { Request, Response, Router } from 'express'
-import { listParametersController } from '../useCases/ListParameters'
 import { ParameterController } from '../controllers/ParameterController'
-import { createParameterController } from '../useCases/CreateParameter'
+import { createParameterController } from '../useCases/Parameter/CreateParameter'
+import { listParametersController } from '../useCases/Parameter/ListParameters'
+import { findOneParameterController } from '../useCases/Parameter/FindOneParameter'
+import { findParameterByProgramController } from '../useCases/Parameter/FindParameterByProgram'
 
 const router = Router()
 const parameterController = new ParameterController()
@@ -16,7 +18,15 @@ router.get('/v2', (request, response) => {
 //return parameter of a certain uuid
 router.get('/id/:id', parameterController.findOne)
 
+router.get('/v2/id/:id', (request, response) => {
+  findOneParameterController.handle(request, response)
+})
+
 router.get('/program/:programid', parameterController.findByProgram)
+
+router.get('/v2/program/:programid', (request, response) => {
+  findParameterByProgramController.handle(request, response)
+})
 
 /*
 EXPECTED FORMAT FOR newParam:

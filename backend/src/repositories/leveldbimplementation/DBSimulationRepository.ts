@@ -18,9 +18,28 @@ export class DBSimulationRepository implements ISimulationRepository {
     return simulations
   }
 
-  async findOne(id: string) {
+  async findOne(id: string):Promise<Simulation> {
     const simulations = await get('simulations')
-    return simulations[id]
+    
+    const simulation = simulations[id]
+
+    const parameterObjs = {}
+
+    for (const parameter of Object.keys(simulation.parameters)) {
+      const parameterObj = (await get('parameters'))[simulation.parameters[parameter]]
+      parameterObjs[simulation['parameters'][parameter]] = parameterObj
+    }
+    simulation['parameterObjs'] = parameterObjs
+
+    const resultObjs = {}
+
+    for (const result of Object.keys(simulation.results)) {
+      const resultObj = (await get('results'))[simulation.results[result]]
+      resultObjs[simulation['results'][result]] = resultObj
+    }
+    simulation['resultObjs'] = resultObjs
+    
+    return simulation
   }
 
   async save(simulation: Simulation) {

@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import { listProgramsController } from '../useCases/ListPrograms'
+import { listProgramsController } from '../useCases/Program/ListPrograms'
 import { ProgramController } from '../controllers/ProgramController'
-import { findOneProgramController } from '../useCases/FindOneProgram'
+import { findOneProgramController } from '../useCases/Program/FindOneProgram'
+import { createProgramController } from '../useCases/Program/CreateProgram'
 
 const router = Router()
 const programController = new ProgramController()
@@ -29,5 +30,9 @@ EXPECTED FORMAT FOR newProgram:
 }
 */
 router.post('/', programController.save)
+
+router.post('/v2', (request, response) => {
+  createProgramController.handle(request, response)
+})
 
 export default router

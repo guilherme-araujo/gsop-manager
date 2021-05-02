@@ -14,8 +14,10 @@ export class DBSimulationStatusRepository implements ISimulationStatusRepository
     return simulationStatuses
   }
 
-  async findOne(id: string) {
-    const simulationStatus = await get('simulationStatus')
-    return simulationStatus[id]
+  async findOne(id: string):Promise<SimulationStatus> {
+    const response = await get('simulationStatus')
+    const simulationStatus = new SimulationStatus(response[id], id);
+
+    return simulationStatus
   }
 }

@@ -15,9 +15,11 @@ export class DBSimulationResultRepository implements ISimulationResultRepository
     return simulationResults
   }
   
-  async findOne(id: string) {
-    const simulationResults = await get('simulationResults')
-    return simulationResults[id]
+  async findOne(id: string):Promise<SimulationResult> {
+    const response = await get('simulationResults')
+    const simulationResult = new SimulationResult(response[id], id);
+
+    return simulationResult
   }
 
   async linkSimulationResultSimulation(simulationResult: SimulationResult, simulation: Simulation){

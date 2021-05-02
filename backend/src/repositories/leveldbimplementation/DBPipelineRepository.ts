@@ -18,7 +18,7 @@ export class DBPipelineRepository implements IPipelineRepository {
     return pipelines
   }
   
-  async findOne(id: string) {
+  async findOne(id: string):Promise<Pipeline> {
     const pipelines = await get('pipelines')
 
     const pipeline = pipelines[id]

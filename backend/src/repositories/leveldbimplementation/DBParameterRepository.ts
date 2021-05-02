@@ -15,9 +15,11 @@ export class DBParameterRepository implements IParameterRepository {
     return parameters
   }
 
-  async findOne(id: string) {
-    const parameters = await get('parameters')
-    return parameters[id]
+  async findOne(id: string):Promise<Parameter> {
+    const response = await get('parameters')
+    const parameter = new Parameter(response[id], id);
+
+    return parameter
   }
 
   async findByProgram(program: string) {
